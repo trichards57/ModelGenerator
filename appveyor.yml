@@ -7,15 +7,13 @@ assembly_info:
   assembly_informational_version: '{version}'
 before_build:
 - cmd: nuget restore
+skip_tags: true
 build:
   verbosity: minimal
   publish_nuget: true
   project: ModelGenerator.sln
 test_script:
 - cmd: tests.bat
-artifacts:
-- path: '**\ModelGenerator*.nupkg'
-  name: Packages
 environment:
   COVERALLS_REPO_TOKEN:
     secure: KHXvcB9JDeK7JCAJrCzJSuf0U32VdwTaBnAnabdfoBH4PWT64N7I+inB4bZsOHhj
@@ -26,3 +24,5 @@ deploy:
   prerelease: true
   on:
     branch: master
+  auth_token:
+    secure: mlxIUvXrZV1LAtYt9DXC7hWFCE7oHl3QEFxkKTTrpCYKjyNTeWFpZhrna9zZjEZe
