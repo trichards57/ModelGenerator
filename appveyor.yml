@@ -26,3 +26,9 @@ deploy:
     branch: master
   auth_token:
     secure: mlxIUvXrZV1LAtYt9DXC7hWFCE7oHl3QEFxkKTTrpCYKjyNTeWFpZhrna9zZjEZe
+- provider: NuGet
+  server: https://www.myget.org/F/trichards57/api/v2/package
+  api_key:
+    secure: WwUh/s6u+Z0zdCdYBKhYyozI5WbWo0ZmBqAsRcpIwwahVUzZSFuwCI2yJbOY7CTJ
+  symbol_server: https://www.myget.org/F/trichards57/symbols/api/v2/package
+  skip_symbols: false
