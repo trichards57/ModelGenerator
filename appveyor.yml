@@ -7,13 +7,12 @@ assembly_info:
   assembly_informational_version: '{version}'
 build:
   verbosity: minimal
+  publish_nuget: true
 test_script:
 - cmd: tests.bat
 artifacts:
 - path: '**\*.nupkg'
   name: Packages
-build:
-  publish_nuget: true
 environment:
   COVERALLS_REPO_TOKEN:
     secure: KHXvcB9JDeK7JCAJrCzJSuf0U32VdwTaBnAnabdfoBH4PWT64N7I+inB4bZsOHhj
