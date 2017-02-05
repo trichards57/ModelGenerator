@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>$id$</id>
+    <version>$version$-beta</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/trichards57/ModelGenerator/blob/master/License.txt</licenseUrl>
+    <projectUrl>https://github.com/trichards57/ModelGenerator</projectUrl>
+    <description>$description$</description>
+    <copyright>$copyright$</copyright>
+    <tags>Data Model Generation</tags>
+  </metadata>
+</package>

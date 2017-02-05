@@ -3,9 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelGenerator", "ModelGenerator.csproj", "{FA4C131E-7E6A-467F-8075-DA7F07EB0164}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelGenerator.Tests", "ModelGenerator.Tests\ModelGenerator.Tests.csproj", "{C3C60F1C-F8AA-4D64-BEE1-CE02C884E441}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelGenerator", "ModelGenerator\ModelGenerator.csproj", "{FA4C131E-7E6A-467F-8075-DA7F07EB0164}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E09D7D0F-DD09-44B3-82ED-9C704D4FFA71}"
+	ProjectSection(SolutionItems) = preProject
+		appveyor.yml = appveyor.yml
+		ModelGenerator\ModelGenerator.nuspec = ModelGenerator\ModelGenerator.nuspec
+		tests.bat = tests.bat
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +20,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FA4C131E-7E6A-467F-8075-DA7F07EB0164}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FA4C131E-7E6A-467F-8075-DA7F07EB0164}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FA4C131E-7E6A-467F-8075-DA7F07EB0164}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FA4C131E-7E6A-467F-8075-DA7F07EB0164}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C3C60F1C-F8AA-4D64-BEE1-CE02C884E441}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C3C60F1C-F8AA-4D64-BEE1-CE02C884E441}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3C60F1C-F8AA-4D64-BEE1-CE02C884E441}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3C60F1C-F8AA-4D64-BEE1-CE02C884E441}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA4C131E-7E6A-467F-8075-DA7F07EB0164}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA4C131E-7E6A-467F-8075-DA7F07EB0164}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA4C131E-7E6A-467F-8075-DA7F07EB0164}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA4C131E-7E6A-467F-8075-DA7F07EB0164}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
