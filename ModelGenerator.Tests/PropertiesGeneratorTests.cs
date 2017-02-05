@@ -144,8 +144,8 @@ namespace ModelGenerator.Tests
         {
             var testProperty = new Property
             {
-                Name = "TestProperty",
-                Type = "string",
+                Name = _fixture.Create<string>(),
+                Type = _fixture.Create<string>(),
                 IncludeInCreate = true,
                 IncludeInUpdate = true,
                 PropertyRequired = true
@@ -162,48 +162,52 @@ namespace ModelGenerator.Tests
             result.Should().Be(expected);
         }
 
-        //// TODO : Once converted to xUnit, make this data driven to test Summary, Model and Detail modes as well
-        //[TestMethod]
-        //public void ValidateAsEmailPropertyAddsEmailAddressAttributeInReadOnlyMode()
-        //{
-        //    var testProperty = new Property
-        //    {
-        //        Name = "TestProperty",
-        //        Type = "string",
-        //        ValidateAsEmail = true
-        //    };
+        [Theory]
+        [InlineData(OutputMode.Create), InlineData(OutputMode.Update)]
+        public void ValidateAsEmailPropertyAddsEmailAddressAttributeInWriteMode(OutputMode mode)
+        {
+            var testProperty = new Property
+            {
+                Name = _fixture.Create<string>(),
+                Type = _fixture.Create<string>(),
+                IncludeInCreate = true,
+                IncludeInUpdate = true,
+                ValidateAsEmail = true
+            };
 
-        //    var generator = new PropertiesGenerator(OutputMode.Details);
-        //    var output = new StringBuilder();
-        //    generator.CreateProperty(testProperty, output);
+            var generator = new PropertiesGenerator(mode);
+            var output = new StringBuilder();
+            generator.CreateProperty(testProperty, output);
 
-        //    var result = output.ToString();
+            var result = output.ToString();
 
-        //    var expected = $"\t\tpublic {testProperty.Type} {testProperty.Name} {{ get; set; }}{Environment.NewLine}";
+            var expected = $"\t\t[EmailAddress]{Environment.NewLine}\t\tpublic {testProperty.Type} {testProperty.Name} {{ get; set; }}{Environment.NewLine}";
 
-        //    Assert.AreEqual(expected, result);
-        //}
+            result.Should().Be(expected);
+        }
 
-        //// TODO : Once converted to xUnit, make this data driven to test Update and Create modes as well
-        //[TestMethod]
-        //public void ValidateAsEmailPropertyAddsEmailAddressAttributeInWriteMode()
-        //{
-        //    var testProperty = new Property
-        //    {
-        //        Name = "TestProperty",
-        //        Type = "string",
-        //        ValidateAsEmail = true
-        //    };
+        [Theory]
+        [InlineData(OutputMode.Details), InlineData(OutputMode.Model), InlineData(OutputMode.Summary)]
+        public void ValidateAsEmailPropertyDoesNotAddEmailAddressAttributeInReadOnlyModeOrInModel(OutputMode mode)
+        {
+            var testProperty = new Property
+            {
+                Name = _fixture.Create<string>(),
+                Type = _fixture.Create<string>(),
+                IncludeInDetail = true,
+                IncludeInSummary = true,
+                ValidateAsEmail = true
+            };
 
-        //    var generator = new PropertiesGenerator(OutputMode.Create);
-        //    var output = new StringBuilder();
-        //    generator.CreateProperty(testProperty, output);
+            var generator = new PropertiesGenerator(OutputMode.Details);
+            var output = new StringBuilder();
+            generator.CreateProperty(testProperty, output);
 
-        //    var result = output.ToString();
+            var result = output.ToString();
 
-        //    var expected = $"\t\t[EmailAddress]{Environment.NewLine}\t\tpublic {testProperty.Type} {testProperty.Name} {{ get; set; }}{Environment.NewLine}";
+            var expected = $"\t\tpublic {testProperty.Type} {testProperty.Name} {{ get; set; }}{Environment.NewLine}";
 
-        //    Assert.AreEqual(expected, result);
-        //}
+            result.Should().Be(expected);
+        }
     }
 }
