@@ -34,7 +34,7 @@ namespace ModelGenerator.Model
     public class Property
     {
         [XmlAttribute("display-name")]
-        public bool DisplayName { get; set; }
+        public string DisplayName { get; set; }
 
         [XmlAttribute("list")]
         public bool GenerateAsList { get; set; }
@@ -55,7 +55,7 @@ namespace ModelGenerator.Model
         public string Name { get; set; }
 
         [XmlAttribute("required")]
-        public bool PropertyRequried { get; set; }
+        public bool PropertyRequired { get; set; }
 
         [XmlAttribute("type")]
         public string Type { get; set; }
