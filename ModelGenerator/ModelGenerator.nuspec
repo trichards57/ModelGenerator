@@ -6,7 +6,7 @@
     <title>$title$</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
-    <licenseUrl>https://github.com/trichards57/ModelGenerator/blob/master/License.txt</licenseUrl>
+    <licenseUrl>https://github.com/trichards57/ModelGenerator/blob/master/License.md</licenseUrl>
     <projectUrl>https://github.com/trichards57/ModelGenerator</projectUrl>
     <description>$description$</description>
     <copyright>$copyright$</copyright>

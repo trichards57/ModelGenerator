@@ -14,8 +14,15 @@ build:
 test_script:
 - cmd: tests.bat
 artifacts:
-- path: '**\*.nupkg'
+- path: '**\ModelGenerator*.nupkg'
   name: Packages
 environment:
   COVERALLS_REPO_TOKEN:
     secure: KHXvcB9JDeK7JCAJrCzJSuf0U32VdwTaBnAnabdfoBH4PWT64N7I+inB4bZsOHhj
+deploy:
+- provider: GitHub
+  artifact: /.*\.nupkg/           # upload all NuGet packages to release assets
+  draft: false
+  prerelease: true
+  on:
+    branch: master

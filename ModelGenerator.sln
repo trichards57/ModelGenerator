@@ -10,7 +10,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E09D7D0F-DD09-44B3-82ED-9C704D4FFA71}"
 	ProjectSection(SolutionItems) = preProject
 		appveyor.yml = appveyor.yml
+		License.md = License.md
 		ModelGenerator\ModelGenerator.nuspec = ModelGenerator\ModelGenerator.nuspec
+		README.md = README.md
 		tests.bat = tests.bat
 	EndProjectSection
 EndProject
