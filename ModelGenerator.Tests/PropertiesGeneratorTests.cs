@@ -13,6 +13,97 @@ namespace ModelGenerator.Tests
         private readonly Fixture _fixture = new Fixture();
 
         [Theory]
+        [InlineData(OutputMode.Details), InlineData(OutputMode.Summary), InlineData(OutputMode.Create), InlineData(OutputMode.Update), InlineData(OutputMode.Model)]
+        public void GeneratePropertiesOnlyOutputsItemsInCorrectMode(OutputMode mode)
+        {
+            var testProperties = new[] {
+                // Model Only
+                new Property
+                {
+                    Name = _fixture.Create("Model"),
+                    Type = _fixture.Create<string>()
+                },
+                // Create + Model
+                new Property
+                {
+                    Name = _fixture.Create("Create"),
+                    Type = _fixture.Create<string>(),
+                    IncludeInCreate = true
+                },
+                // Detail + Model
+                new Property
+                {
+                    Name = _fixture.Create("Detail"),
+                    Type = _fixture.Create<string>(),
+                    IncludeInDetail = true
+                },
+                // Update + Model
+                new Property
+                {
+                    Name = _fixture.Create("Update"),
+                    Type = _fixture.Create<string>(),
+                    IncludeInUpdate = true
+                },
+                // Summary + Model
+                new Property
+                {
+                    Name = _fixture.Create("Summary"),
+                    Type = _fixture.Create<string>(),
+                    IncludeInSummary = true
+                },
+                // Detail + Model
+                new Property
+                {
+                    Name = _fixture.Create("Detail2"),
+                    Type = _fixture.Create<string>(),
+                    IncludeInDetail = true,
+                }
+            };
+
+            var generator = new PropertiesGenerator(mode);
+            var output = new StringBuilder();
+            generator.CreateProperties(testProperties, output);
+
+            var result = output.ToString();
+
+            string expected;
+
+            switch (mode)
+            {
+                case OutputMode.Details:
+                    expected = $"\t\tpublic {testProperties[2].Type} {testProperties[2].Name} {{ get; set; }}{Environment.NewLine}";
+                    expected += $"\t\tpublic {testProperties[5].Type} {testProperties[5].Name} {{ get; set; }}{Environment.NewLine}";
+                    break;
+
+                case OutputMode.Summary:
+                    expected = $"\t\tpublic {testProperties[4].Type} {testProperties[4].Name} {{ get; set; }}{Environment.NewLine}";
+                    break;
+
+                case OutputMode.Create:
+                    expected = $"\t\tpublic {testProperties[1].Type} {testProperties[1].Name} {{ get; set; }}{Environment.NewLine}";
+                    break;
+
+                case OutputMode.Update:
+                    expected = $"\t\tpublic {testProperties[3].Type} {testProperties[3].Name} {{ get; set; }}{Environment.NewLine}";
+                    break;
+
+                case OutputMode.Model:
+                    expected = $"\t\tpublic {testProperties[0].Type} {testProperties[0].Name} {{ get; set; }}{Environment.NewLine}";
+                    expected += $"\t\tpublic {testProperties[1].Type} {testProperties[1].Name} {{ get; set; }}{Environment.NewLine}";
+                    expected += $"\t\tpublic {testProperties[2].Type} {testProperties[2].Name} {{ get; set; }}{Environment.NewLine}";
+                    expected += $"\t\tpublic {testProperties[3].Type} {testProperties[3].Name} {{ get; set; }}{Environment.NewLine}";
+                    expected += $"\t\tpublic {testProperties[4].Type} {testProperties[4].Name} {{ get; set; }}{Environment.NewLine}";
+                    expected += $"\t\tpublic {testProperties[5].Type} {testProperties[5].Name} {{ get; set; }}{Environment.NewLine}";
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(mode));
+            }
+
+            result.Should().Be(expected);
+        }
+
+        [Theory]
         [InlineData(OutputMode.Create), InlineData(OutputMode.Details), InlineData(OutputMode.Model), InlineData(OutputMode.Summary), InlineData(OutputMode.Update)]
         public void ModelModeBasicPropertyLeadsToPropertyOutput(OutputMode mode)
         {
