@@ -32,6 +32,42 @@ namespace ModelGenerator
             Directory.CreateDirectory(modelOutputFolder);
 
             File.WriteAllText(Path.Combine(modelOutputFolder, "Models.cs"), outputModel.ToString());
+
+            modelGenerator = new ClassGenerator(OutputMode.Create);
+            outputModel = new StringBuilder();
+            modelGenerator.CreateClasses(model, outputModel);
+
+            modelOutputFolder = Path.Combine(outputFolder, model.ViewModelNamespace);
+            Directory.CreateDirectory(modelOutputFolder);
+
+            File.WriteAllText(Path.Combine(modelOutputFolder, "CreateModels.cs"), outputModel.ToString());
+
+            modelGenerator = new ClassGenerator(OutputMode.Details);
+            outputModel = new StringBuilder();
+            modelGenerator.CreateClasses(model, outputModel);
+
+            modelOutputFolder = Path.Combine(outputFolder, model.ViewModelNamespace);
+            Directory.CreateDirectory(modelOutputFolder);
+
+            File.WriteAllText(Path.Combine(modelOutputFolder, "DetailModels.cs"), outputModel.ToString());
+
+            modelGenerator = new ClassGenerator(OutputMode.Summary);
+            outputModel = new StringBuilder();
+            modelGenerator.CreateClasses(model, outputModel);
+
+            modelOutputFolder = Path.Combine(outputFolder, model.ViewModelNamespace);
+            Directory.CreateDirectory(modelOutputFolder);
+
+            File.WriteAllText(Path.Combine(modelOutputFolder, "SummaryModels.cs"), outputModel.ToString());
+
+            modelGenerator = new ClassGenerator(OutputMode.Update);
+            outputModel = new StringBuilder();
+            modelGenerator.CreateClasses(model, outputModel);
+
+            modelOutputFolder = Path.Combine(outputFolder, model.ViewModelNamespace);
+            Directory.CreateDirectory(modelOutputFolder);
+
+            File.WriteAllText(Path.Combine(modelOutputFolder, "UpdateModels.cs"), outputModel.ToString());
         }
     }
 }

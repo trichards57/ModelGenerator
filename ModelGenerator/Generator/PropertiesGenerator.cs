@@ -49,26 +49,36 @@ namespace ModelGenerator.Generator
                 CreateProperty(p, output);
         }
 
-        public void CreateProperty(Property testProperty, StringBuilder output)
+        public void CreateProperty(Property property, StringBuilder output)
         {
-            if (testProperty.PropertyRequired && !IsReadOnlyMode)
+            if (property.PropertyRequired && !IsReadOnlyMode)
                 output.AppendLine("\t\t[Required]");
 
-            if (testProperty.ValidateAsEmail && !IsReadOnlyMode && IsClientSide)
+            if (property.ValidateAsEmail && !IsReadOnlyMode && IsClientSide)
                 output.AppendLine("\t\t[EmailAddress]");
 
-            if (!string.IsNullOrWhiteSpace(testProperty.DisplayName) && IsClientSide)
-                output.AppendLine($"\t\t[DisplayName(\"{testProperty.DisplayName}\")]");
+            if (!string.IsNullOrWhiteSpace(property.DisplayName) && IsClientSide)
+                output.AppendLine($"\t\t[Display(Name=\"{property.DisplayName}\")]");
 
-            if (testProperty.GenerateAsList)
+            var type = property.Type;
+
+            if (_mode == OutputMode.Details)
+                type += "Details";
+
+            if (property.GenerateAsList)
             {
                 if (_mode == OutputMode.Model)
-                    output.AppendLine($"\t\tpublic ICollection<{testProperty.Type}> {testProperty.Name} {{ get; set; }} = new HashSet<{testProperty.Type}>();");
+                    output.AppendLine($"\t\tpublic ICollection<{type}> {property.Name} {{ get; set; }} = new HashSet<{type}>();");
                 else
-                    output.AppendLine($"\t\tpublic IEnumerable<{testProperty.Type}> {testProperty.Name} {{ get; set; }}");
+                    output.AppendLine($"\t\tpublic IEnumerable<{type}> {property.Name} {{ get; set; }}");
             }
             else
-                output.AppendLine($"\t\tpublic {testProperty.Type} {testProperty.Name} {{ get; set; }}");
+            {
+                if (_mode == OutputMode.Model && property.Type == "string")
+                    output.AppendLine($"\t\tpublic {property.Type} {property.Name} {{ get; set; }} = string.Empty;");
+                else
+                    output.AppendLine($"\t\tpublic {property.Type} {property.Name} {{ get; set; }}");
+            }
         }
     }
 }
