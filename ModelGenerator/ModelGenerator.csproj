@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Generator\ClassGenerator.cs" />
     <Compile Include="Generator\PropertiesGenerator.cs" />
     <Compile Include="Model\Model.cs" />
     <Compile Include="Model\OutputMode.cs" />

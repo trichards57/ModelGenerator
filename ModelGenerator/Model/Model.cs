@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace ModelGenerator.Model
 {
-    public class Model
+    public class Class
     {
         [XmlAttribute("create")]
         public bool GenerateCreateModel { get; set; }
@@ -25,10 +26,19 @@ namespace ModelGenerator.Model
     }
 
     [XmlRoot("models")]
-    public class Models
+    public class Classes
     {
         [XmlElement("model")]
-        public List<Model> Items { get; set; }
+        public List<Class> Items { get; set; }
+
+        [XmlAttribute("modelNamespace")]
+        public string ModelNamespace { get; set; }
+
+        [XmlAttribute("rootNamespace")]
+        public string RootNamespace { get; set; }
+
+        [XmlAttribute("viewModelNamespace")]
+        public string ViewModelNamespace { get; set; }
     }
 
     public class Property

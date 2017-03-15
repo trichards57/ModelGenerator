@@ -49,7 +49,7 @@ namespace ModelGenerator.Generator
                 CreateProperty(p, output);
         }
 
-        public virtual void CreateProperty(Property testProperty, StringBuilder output)
+        public void CreateProperty(Property testProperty, StringBuilder output)
         {
             if (testProperty.PropertyRequired && !IsReadOnlyMode)
                 output.AppendLine("\t\t[Required]");
@@ -63,7 +63,7 @@ namespace ModelGenerator.Generator
             if (testProperty.GenerateAsList)
             {
                 if (_mode == OutputMode.Model)
-                    output.AppendLine($"\t\tpublic ICollection<{testProperty.Type}> {testProperty.Name} {{ get; set; }} = new HashSet<{testProperty.Type}>()");
+                    output.AppendLine($"\t\tpublic ICollection<{testProperty.Type}> {testProperty.Name} {{ get; set; }} = new HashSet<{testProperty.Type}>();");
                 else
                     output.AppendLine($"\t\tpublic IEnumerable<{testProperty.Type}> {testProperty.Name} {{ get; set; }}");
             }
