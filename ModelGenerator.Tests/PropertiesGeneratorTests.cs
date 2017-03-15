@@ -148,7 +148,7 @@ namespace ModelGenerator.Tests
 
             var result = output.ToString();
 
-            var expected = $"\t\tpublic ICollection<{testProperty.Type}> {testProperty.Name} {{ get; set; }} = new HashSet<{testProperty.Type}>(){Environment.NewLine}";
+            var expected = $"\t\tpublic ICollection<{testProperty.Type}> {testProperty.Name} {{ get; set; }} = new HashSet<{testProperty.Type}>();{Environment.NewLine}";
 
             result.Should().Be(expected);
         }
@@ -174,7 +174,7 @@ namespace ModelGenerator.Tests
 
             var result = output.ToString();
 
-            var expected = $"\t\t[DisplayName(\"{testProperty.DisplayName}\")]{Environment.NewLine}\t\tpublic {testProperty.Type} {testProperty.Name} {{ get; set; }}{Environment.NewLine}";
+            var expected = $"\t\t[Display(Name=\"{testProperty.DisplayName}\")]{Environment.NewLine}\t\tpublic {testProperty.Type} {testProperty.Name} {{ get; set; }}{Environment.NewLine}";
 
             result.Should().Be(expected);
         }
@@ -200,7 +200,12 @@ namespace ModelGenerator.Tests
 
             var result = output.ToString();
 
-            var expected = $"\t\tpublic IEnumerable<{testProperty.Type}> {testProperty.Name} {{ get; set; }}{Environment.NewLine}";
+            var expected = string.Empty;
+
+            if (mode == OutputMode.Details)
+                expected = $"\t\tpublic IEnumerable<{testProperty.Type}Details> {testProperty.Name} {{ get; set; }}{Environment.NewLine}";
+            else
+                expected = $"\t\tpublic IEnumerable<{testProperty.Type}> {testProperty.Name} {{ get; set; }}{Environment.NewLine}";
 
             result.Should().Be(expected);
         }
