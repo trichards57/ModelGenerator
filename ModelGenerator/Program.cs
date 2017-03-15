@@ -1,0 +1,9 @@
+﻿namespace ModelGenerator
+{
+    internal class Program
+    {
+        private static void Main(string[] args)
+        {
+        }
+    }
+}

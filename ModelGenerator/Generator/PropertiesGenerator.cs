@@ -1,8 +1,7 @@
-﻿using System;
-using System.Text;
-using ModelGenerator.Model;
-using System.Linq;
+﻿using ModelGenerator.Model;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace ModelGenerator.Generator
 {
@@ -25,6 +24,7 @@ namespace ModelGenerator.Generator
             switch (_mode)
             {
                 case OutputMode.Details:
+
                     selectedProperties = properties.Where(p => p.IncludeInDetail);
                     break;
 
