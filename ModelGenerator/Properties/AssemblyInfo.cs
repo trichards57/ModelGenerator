@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("ModelGenerator")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Common model generation tool I use in a lot of my personal projects. Use at your own risk...")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Tony Richards")]
 [assembly: AssemblyProduct("ModelGenerator")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
