@@ -20,7 +20,7 @@ environment:
     secure: KHXvcB9JDeK7JCAJrCzJSuf0U32VdwTaBnAnabdfoBH4PWT64N7I+inB4bZsOHhj
 deploy:
 - provider: GitHub
-  artifact: /.*\.nupkg/           # upload all NuGet packages to release assets
+  artifact: ModelGenerator           
   draft: false
   prerelease: true
   on:
@@ -33,3 +33,7 @@ deploy:
     secure: WwUh/s6u+Z0zdCdYBKhYyozI5WbWo0ZmBqAsRcpIwwahVUzZSFuwCI2yJbOY7CTJ
   symbol_server: https://www.myget.org/F/trichards57/symbols/api/v2/package
   skip_symbols: false
+  artifact: ModelGenerator
+artifacts:
+  - path: '*.nupkg'
+    name: ModelGenerator
