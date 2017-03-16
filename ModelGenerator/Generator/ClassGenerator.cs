@@ -16,7 +16,7 @@ namespace ModelGenerator.Generator
         public ClassGenerator(OutputMode mode)
         {
             _mode = mode;
-            _generatorVersion = "v" + Assembly.GetEntryAssembly().GetName().Version.ToString(3);
+            _generatorVersion = "v" + Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
             _propGenerator = new PropertiesGenerator(mode);
         }
 
