@@ -1,14 +1,9 @@
 ﻿version: 0.1.{build}
 image: Visual Studio 2017
-assembly_info:
-  patch: true
-  file: '**\AssemblyInfo.*'
-  assembly_version: '{version}'
-  assembly_file_version: '{version}'
-  assembly_informational_version: '{version}'
 configuration: Release
 before_build:
   - cmd: nuget restore
+  - cmd: dotnet restore
   - ps: (Get-Content .\ModelGenerator\ModelGenerator.csproj).replace('<Version>1.0.0</Version>', '<Version>' + $Env:APPVEYOR_BUILD_VERSION + '</Version>') | Set-Content .\ModelGenerator\ModelGenerator.csproj
   - ps: (Get-Content .\ModelGenerator\ModelGenerator.csproj).replace('<FileVersion>1.0.0</FileVersion>', '<FileVersion>' + $Env:APPVEYOR_BUILD_VERSION + '</FileVersion>') | Set-Content .\ModelGenerator\ModelGenerator.csproj
   - ps: (Get-Content .\ModelGenerator\ModelGenerator.csproj).replace('<InformationalVersion>1.0.0</InformationalVersion>', '<InformationalVersion>' + $Env:APPVEYOR_BUILD_VERSION + '</InformationalVersion>') | Set-Content .\ModelGenerator\ModelGenerator.csproj
