@@ -7,9 +7,9 @@ using System.Xml.Serialization;
 
 namespace ModelGenerator
 {
-    internal class Program
+    public class Program
     {
-        private static void Main(string[] args)
+        public static void Main(string[] args)
         {
             if (args.Length != 2)
             {
@@ -21,8 +21,10 @@ namespace ModelGenerator
             var sourcePath = args[0];
             var outputFolder = args[1].Trim('\\');
 
+            var inFile = File.OpenRead(sourcePath);
+
             var serializer = new XmlSerializer(typeof(Classes));
-            var model = serializer.Deserialize(new StreamReader(sourcePath)) as Classes;
+            var model = serializer.Deserialize(new StreamReader(inFile)) as Classes;
 
             var modelGenerator = new ClassGenerator(OutputMode.Model);
             var outputModel = new StringBuilder();
