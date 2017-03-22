@@ -67,6 +67,9 @@ namespace ModelGenerator.Model
         [XmlAttribute("required")]
         public bool PropertyRequired { get; set; }
 
+        [XmlAttribute("regex")]
+        public string RegularExpression { get; set; }
+
         [XmlAttribute("type")]
         public string Type { get; set; }
 

@@ -16,6 +16,7 @@ namespace ModelGenerator
                 Console.WriteLine("Invalid Arguments");
                 Console.WriteLine("Press enter to close...");
                 Console.ReadLine();
+                return;
             }
 
             var sourcePath = args[0];

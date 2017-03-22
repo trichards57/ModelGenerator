@@ -60,6 +60,9 @@ namespace ModelGenerator.Generator
             if (!string.IsNullOrWhiteSpace(property.DisplayName) && IsClientSide)
                 output.AppendLine($"\t\t[Display(Name=\"{property.DisplayName}\")]");
 
+            if (!string.IsNullOrWhiteSpace(property.RegularExpression) && !IsReadOnlyMode)
+                output.AppendLine($"\t\t[RegularExpression(@\"{property.RegularExpression}\")]");
+
             var type = property.Type;
 
             if (_mode == OutputMode.Details)
