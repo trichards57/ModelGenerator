@@ -75,30 +75,33 @@ namespace ModelGenerator
 
             File.WriteAllText(outputPath, outputModel.ToString());
 
-            var tsGenerator = new TypescriptGenerator(mode);
-            var outputTs = new StringBuilder();
-            tsGenerator.CreateClasses(model, outputTs);
-
-            switch (mode)
+            if (mode != OutputMode.Model && !string.IsNullOrWhiteSpace(model.TypescriptFolder))
             {
-                case OutputMode.Create:
-                    outputPath = Path.Combine(outputFolder, model.TypescriptFolder, "CreateModels.ts");
-                    break;
+                var tsGenerator = new TypescriptGenerator(mode);
+                var outputTs = new StringBuilder();
+                tsGenerator.CreateClasses(model, outputTs);
 
-                case OutputMode.Details:
-                    outputPath = Path.Combine(outputFolder, model.TypescriptFolder, "DetailsModels.ts");
-                    break;
+                switch (mode)
+                {
+                    case OutputMode.Create:
+                        outputPath = Path.Combine(outputFolder, model.TypescriptFolder, "CreateModels.ts");
+                        break;
 
-                case OutputMode.Summary:
-                    outputPath = Path.Combine(outputFolder, model.TypescriptFolder, "SummaryModels.ts");
-                    break;
+                    case OutputMode.Details:
+                        outputPath = Path.Combine(outputFolder, model.TypescriptFolder, "DetailsModels.ts");
+                        break;
 
-                case OutputMode.Update:
-                    outputPath = Path.Combine(outputFolder, model.TypescriptFolder, "UpdateModels.ts");
-                    break;
+                    case OutputMode.Summary:
+                        outputPath = Path.Combine(outputFolder, model.TypescriptFolder, "SummaryModels.ts");
+                        break;
+
+                    case OutputMode.Update:
+                        outputPath = Path.Combine(outputFolder, model.TypescriptFolder, "UpdateModels.ts");
+                        break;
+                }
+
+                File.WriteAllText(outputPath, outputTs.ToString());
             }
-
-            File.WriteAllText(outputPath, outputTs.ToString());
         }
     }
 }
