@@ -34,8 +34,14 @@ namespace ModelGenerator.Model
         [XmlAttribute("modelNamespace")]
         public string ModelNamespace { get; set; }
 
+        [XmlAttribute("modelsFolder")]
+        public string ModelsFolder { get; set; }
+
         [XmlAttribute("rootNamespace")]
         public string RootNamespace { get; set; }
+
+        [XmlAttribute("typescriptFolder")]
+        public string TypescriptFolder { get; set; }
 
         [XmlAttribute("viewModelNamespace")]
         public string ViewModelNamespace { get; set; }

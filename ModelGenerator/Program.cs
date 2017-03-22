@@ -27,50 +27,78 @@ namespace ModelGenerator
             var serializer = new XmlSerializer(typeof(Classes));
             var model = serializer.Deserialize(new StreamReader(inFile)) as Classes;
 
-            var modelGenerator = new ClassGenerator(OutputMode.Model);
+            var modelOutputFolder = Path.Combine(outputFolder, model.ModelsFolder, model.ModelNamespace);
+            var viewmodelOutputFolder = Path.Combine(outputFolder, model.ModelsFolder, model.ViewModelNamespace);
+            var typescriptOutputFolder = Path.Combine(outputFolder, model.TypescriptFolder);
+
+            Directory.CreateDirectory(modelOutputFolder);
+            Directory.CreateDirectory(viewmodelOutputFolder);
+            Directory.CreateDirectory(typescriptOutputFolder);
+
+            CreateFiles(outputFolder, model, OutputMode.Model);
+            CreateFiles(outputFolder, model, OutputMode.Create);
+            CreateFiles(outputFolder, model, OutputMode.Details);
+            CreateFiles(outputFolder, model, OutputMode.Summary);
+            CreateFiles(outputFolder, model, OutputMode.Update);
+        }
+
+        private static void CreateFiles(string outputFolder, Classes model, OutputMode mode)
+        {
+            var modelGenerator = new ClassGenerator(mode);
             var outputModel = new StringBuilder();
             modelGenerator.CreateClasses(model, outputModel);
 
-            var modelOutputFolder = Path.Combine(outputFolder, model.ModelNamespace);
-            Directory.CreateDirectory(modelOutputFolder);
+            var outputPath = string.Empty;
 
-            File.WriteAllText(Path.Combine(modelOutputFolder, "Models.cs"), outputModel.ToString());
+            switch (mode)
+            {
+                case OutputMode.Model:
+                    outputPath = Path.Combine(outputFolder, model.ModelsFolder, model.ModelNamespace, "Models.cs");
+                    break;
 
-            modelGenerator = new ClassGenerator(OutputMode.Create);
-            outputModel = new StringBuilder();
-            modelGenerator.CreateClasses(model, outputModel);
+                case OutputMode.Create:
+                    outputPath = Path.Combine(outputFolder, model.ModelsFolder, model.ViewModelNamespace, "CreateModels.cs");
+                    break;
 
-            modelOutputFolder = Path.Combine(outputFolder, model.ViewModelNamespace);
-            Directory.CreateDirectory(modelOutputFolder);
+                case OutputMode.Details:
+                    outputPath = Path.Combine(outputFolder, model.ModelsFolder, model.ViewModelNamespace, "DetailsModels.cs");
+                    break;
 
-            File.WriteAllText(Path.Combine(modelOutputFolder, "CreateModels.cs"), outputModel.ToString());
+                case OutputMode.Summary:
+                    outputPath = Path.Combine(outputFolder, model.ModelsFolder, model.ViewModelNamespace, "SummaryModels.cs");
+                    break;
 
-            modelGenerator = new ClassGenerator(OutputMode.Details);
-            outputModel = new StringBuilder();
-            modelGenerator.CreateClasses(model, outputModel);
+                case OutputMode.Update:
+                    outputPath = Path.Combine(outputFolder, model.ModelsFolder, model.ViewModelNamespace, "UpdateModels.cs");
+                    break;
+            }
 
-            modelOutputFolder = Path.Combine(outputFolder, model.ViewModelNamespace);
-            Directory.CreateDirectory(modelOutputFolder);
+            File.WriteAllText(outputPath, outputModel.ToString());
 
-            File.WriteAllText(Path.Combine(modelOutputFolder, "DetailModels.cs"), outputModel.ToString());
+            var tsGenerator = new TypescriptGenerator(mode);
+            var outputTs = new StringBuilder();
+            tsGenerator.CreateClasses(model, outputTs);
 
-            modelGenerator = new ClassGenerator(OutputMode.Summary);
-            outputModel = new StringBuilder();
-            modelGenerator.CreateClasses(model, outputModel);
+            switch (mode)
+            {
+                case OutputMode.Create:
+                    outputPath = Path.Combine(outputFolder, model.TypescriptFolder, "CreateModels.ts");
+                    break;
 
-            modelOutputFolder = Path.Combine(outputFolder, model.ViewModelNamespace);
-            Directory.CreateDirectory(modelOutputFolder);
+                case OutputMode.Details:
+                    outputPath = Path.Combine(outputFolder, model.TypescriptFolder, "DetailsModels.ts");
+                    break;
 
-            File.WriteAllText(Path.Combine(modelOutputFolder, "SummaryModels.cs"), outputModel.ToString());
+                case OutputMode.Summary:
+                    outputPath = Path.Combine(outputFolder, model.TypescriptFolder, "SummaryModels.ts");
+                    break;
 
-            modelGenerator = new ClassGenerator(OutputMode.Update);
-            outputModel = new StringBuilder();
-            modelGenerator.CreateClasses(model, outputModel);
+                case OutputMode.Update:
+                    outputPath = Path.Combine(outputFolder, model.TypescriptFolder, "UpdateModels.ts");
+                    break;
+            }
 
-            modelOutputFolder = Path.Combine(outputFolder, model.ViewModelNamespace);
-            Directory.CreateDirectory(modelOutputFolder);
-
-            File.WriteAllText(Path.Combine(modelOutputFolder, "UpdateModels.cs"), outputModel.ToString());
+            File.WriteAllText(outputPath, outputTs.ToString());
         }
     }
 }
