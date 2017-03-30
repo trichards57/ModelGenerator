@@ -189,7 +189,7 @@ namespace ModelGenerator.Generator
             var lines = FilterProperties(model.Properties).Where(p => !p.GenerateAsList).OrderBy(p => p.Name)
                 .Select(prop =>
                 {
-                    if (prop.Type == "DateTime")
+                    if (prop.Type == "DateTime" || prop.Type == "DateTimeOffset")
                         return $"\t\t\tres &= ({prop.Name} - other.{prop.Name}).TotalSeconds < 30;";
                     else
                         return $"\t\t\tres &= {prop.Name}.Equals(other.{prop.Name});";

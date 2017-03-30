@@ -65,8 +65,9 @@ namespace ModelGenerator.Generator
                     break;
 
                 case "DateTime":
+                case "DateTimeOffset":
                 case "TimeSpan":
-                    type = "string | Date";
+                    type = "string";
                     break;
             }
 
