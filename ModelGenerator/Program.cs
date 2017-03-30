@@ -2,6 +2,7 @@
 using ModelGenerator.Model;
 using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
@@ -36,10 +37,14 @@ namespace ModelGenerator
             Directory.CreateDirectory(typescriptOutputFolder);
 
             CreateFiles(outputFolder, model, OutputMode.Model);
-            CreateFiles(outputFolder, model, OutputMode.Create);
-            CreateFiles(outputFolder, model, OutputMode.Details);
-            CreateFiles(outputFolder, model, OutputMode.Summary);
-            CreateFiles(outputFolder, model, OutputMode.Update);
+            if (model.Items.Any(i => i.GenerateCreateModel))
+                CreateFiles(outputFolder, model, OutputMode.Create);
+            if (model.Items.Any(i => i.GenerateDetailModel))
+                CreateFiles(outputFolder, model, OutputMode.Details);
+            if (model.Items.Any(i => i.GenerateSummaryModel))
+                CreateFiles(outputFolder, model, OutputMode.Summary);
+            if (model.Items.Any(i => i.GenerateUpdateModel))
+                CreateFiles(outputFolder, model, OutputMode.Update);
         }
 
         private static void CreateFiles(string outputFolder, Classes model, OutputMode mode)
