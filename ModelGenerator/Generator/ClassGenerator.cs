@@ -1,9 +1,9 @@
 ﻿using ModelGenerator.Model;
-using System.Text;
 using System;
-using System.Reflection;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
 
 namespace ModelGenerator.Generator
 {
@@ -33,6 +33,8 @@ namespace ModelGenerator.Generator
 
                 if (model.GenerateDetailModel)
                     output.Append($", IDetailable<{model.Name}Details>");
+                if (model.GenerateSummaryModel)
+                    output.Append($", ISummarisable<{model.Name}Summary>");
             }
 
             if (_mode == OutputMode.Create)
@@ -61,6 +63,8 @@ namespace ModelGenerator.Generator
 
             if (_mode == OutputMode.Model && model.GenerateDetailModel)
                 CreateToDetailMethod(model, output);
+            if (_mode == OutputMode.Model && model.GenerateSummaryModel)
+                CreateToSummaryMethod(model, output);
 
             if (_mode == OutputMode.Create)
                 CreateToItemMethod(model, output);
@@ -75,13 +79,6 @@ namespace ModelGenerator.Generator
         {
             CreateUsings(model, output);
             StartNamespace(model, output);
-
-            if (_mode == OutputMode.Model)
-                CreateModelInterfaces(output);
-            if (_mode == OutputMode.Create)
-                CreateCreateInterfaces(output);
-            if (_mode == OutputMode.Update)
-                CreateUpdateInterfaces(output);
 
             var cls = model.Items.AsEnumerable();
 
@@ -159,15 +156,6 @@ namespace ModelGenerator.Generator
             output.AppendLine("\t\t}");
         }
 
-        private void CreateCreateInterfaces(StringBuilder output)
-        {
-            output.AppendLine("\tpublic interface ICreateViewModel<TModel>");
-            output.AppendLine("\t{");
-            output.AppendLine("\t\tTModel ToItem();");
-            output.AppendLine("\t}");
-            output.AppendLine();
-        }
-
         private void CreateEqualsMethods(Class model, StringBuilder output)
         {
             var name = GetName(model);
@@ -219,20 +207,6 @@ namespace ModelGenerator.Generator
             output.AppendLine("\t\t}");
         }
 
-        private void CreateModelInterfaces(StringBuilder output)
-        {
-            output.AppendLine("\tpublic interface IDetailable<TDetail>");
-            output.AppendLine("\t{");
-            output.AppendLine("\t    TDetail ToDetail();");
-            output.AppendLine("\t}");
-            output.AppendLine();
-            output.AppendLine("\tpublic interface IIdentifiable");
-            output.AppendLine("\t{");
-            output.AppendLine("\t    int Id { get; set; }");
-            output.AppendLine("\t}");
-            output.AppendLine();
-        }
-
         private void CreateToDetailMethod(Class model, StringBuilder output)
         {
             output.AppendLine($"\t\tpublic {model.Name}Details ToDetail()");
@@ -241,20 +215,18 @@ namespace ModelGenerator.Generator
             output.AppendLine("\t\t}");
         }
 
+        private void CreateToSummaryMethod(Class model, StringBuilder output)
+        {
+            output.AppendLine($"\t\tpublic {model.Name}Summary ToSummary()");
+            output.AppendLine("\t\t{");
+            output.AppendLine($"\t\t\treturn new {model.Name}Summary(this);");
+            output.AppendLine("\t\t}");
+        }
+
         private void CreateToItemMethod(Class model, StringBuilder output)
         {
             output.AppendLine($"\t\tpublic {model.Name} ToItem()");
             CreateCopyFunction(model, output);
-        }
-
-        private void CreateUpdateInterfaces(StringBuilder output)
-        {
-            output.AppendLine("\tpublic interface IUpdateViewModel<TModel>");
-            output.AppendLine("\t{");
-            output.AppendLine("\t    void UpdateItem(TModel item);");
-            output.AppendLine("\t    int Id { get; set; }");
-            output.AppendLine("\t}");
-            output.AppendLine();
         }
 
         private void CreateUpdateItemMethod(Class model, StringBuilder output)
@@ -286,6 +258,7 @@ namespace ModelGenerator.Generator
             output.AppendLine("using System.Diagnostics.CodeAnalysis;");
             if (_mode == OutputMode.Details)
                 output.AppendLine($"using System.Linq;");
+            output.AppendLine($"using WebsiteHelpers.Interfaces;");
 
             output.AppendLine();
         }
