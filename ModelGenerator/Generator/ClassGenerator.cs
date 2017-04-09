@@ -254,6 +254,9 @@ namespace ModelGenerator.Generator
             if (_mode == OutputMode.Model || _mode == OutputMode.Details)
                 output.AppendLine("using System.Collections.Generic;");
 
+            if (_mode == OutputMode.Model)
+                output.AppendLine("using System.ComponentModel.DataAnnotations.Schema;");
+
             output.AppendLine("using System.ComponentModel.DataAnnotations;");
             output.AppendLine("using System.Diagnostics.CodeAnalysis;");
             if (_mode == OutputMode.Details)

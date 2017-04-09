@@ -63,8 +63,8 @@ namespace ModelGenerator.Generator
             if (!string.IsNullOrWhiteSpace(property.RegularExpression) && !IsReadOnlyMode)
                 output.AppendLine($"\t\t[RegularExpression(@\"{property.RegularExpression}\")]");
 
-            if (!string.IsNullOrWhiteSpace(property.NavigationPropertyId))
-                output.AppendLine($"\t\t[ForeignKey({property.NavigationPropertyId})]");
+            if (!string.IsNullOrWhiteSpace(property.NavigationPropertyId) && !IsClientSide)
+                output.AppendLine($"\t\t[ForeignKey(\"{property.NavigationPropertyId}\")]");
 
             var type = property.Type;
 
