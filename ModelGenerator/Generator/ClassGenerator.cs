@@ -146,7 +146,7 @@ namespace ModelGenerator.Generator
             output.AppendLine($"\t\t\tvar item = new {model.Name}");
             output.AppendLine("\t\t\t{");
 
-            var lines = FilterProperties(model.Properties).OrderBy(p => p.Name).Select(prop => $"\t\t\t\t{ prop.Name} = { prop.Name}");
+            var lines = FilterProperties(model.Properties).Where(p => string.IsNullOrWhiteSpace(p.NavigationPropertyId)).OrderBy(p => p.Name).Select(prop => $"\t\t\t\t{ prop.Name} = { prop.Name}");
 
             output.Append(string.Join("," + Environment.NewLine, lines));
             output.AppendLine();
@@ -174,7 +174,7 @@ namespace ModelGenerator.Generator
             output.AppendLine($"\t\t\tvar res = true;");
             output.AppendLine();
 
-            var lines = FilterProperties(model.Properties).Where(p => !p.GenerateAsList).OrderBy(p => p.Name)
+            var lines = FilterProperties(model.Properties).Where(p => string.IsNullOrWhiteSpace(p.NavigationPropertyId)).Where(p => !p.GenerateAsList).OrderBy(p => p.Name)
                 .Select(prop =>
                 {
                     if (prop.Type == "DateTime" || prop.Type == "DateTimeOffset")
@@ -198,7 +198,7 @@ namespace ModelGenerator.Generator
             output.AppendLine("\t\t\tint hash = 17;");
             output.AppendLine();
 
-            var lines = FilterProperties(model.Properties).OrderBy(p => p.Name).Select(prop => $"\t\t\thash = hash * 31 + {prop.Name}.GetHashCode();");
+            var lines = FilterProperties(model.Properties).Where(p => string.IsNullOrWhiteSpace(p.NavigationPropertyId)).OrderBy(p => p.Name).Select(prop => $"\t\t\thash = hash * 31 + {prop.Name}.GetHashCode();");
 
             output.Append(string.Join(Environment.NewLine, lines));
             output.AppendLine();
@@ -215,18 +215,18 @@ namespace ModelGenerator.Generator
             output.AppendLine("\t\t}");
         }
 
+        private void CreateToItemMethod(Class model, StringBuilder output)
+        {
+            output.AppendLine($"\t\tpublic {model.Name} ToItem()");
+            CreateCopyFunction(model, output);
+        }
+
         private void CreateToSummaryMethod(Class model, StringBuilder output)
         {
             output.AppendLine($"\t\tpublic {model.Name}Summary ToSummary()");
             output.AppendLine("\t\t{");
             output.AppendLine($"\t\t\treturn new {model.Name}Summary(this);");
             output.AppendLine("\t\t}");
-        }
-
-        private void CreateToItemMethod(Class model, StringBuilder output)
-        {
-            output.AppendLine($"\t\tpublic {model.Name} ToItem()");
-            CreateCopyFunction(model, output);
         }
 
         private void CreateUpdateItemMethod(Class model, StringBuilder output)

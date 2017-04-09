@@ -70,6 +70,9 @@ namespace ModelGenerator.Model
         [XmlAttribute("name")]
         public string Name { get; set; }
 
+        [XmlAttribute("navigation-prop-id")]
+        public string NavigationPropertyId { get; set; }
+
         [XmlAttribute("required")]
         public bool PropertyRequired { get; set; }
 

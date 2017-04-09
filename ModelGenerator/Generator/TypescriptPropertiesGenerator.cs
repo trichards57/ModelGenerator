@@ -86,6 +86,12 @@ namespace ModelGenerator.Generator
             }
             else
             {
+                if (!string.IsNullOrWhiteSpace(property.NavigationPropertyId))
+                    type = "I" + type;
+
+                if (_mode == OutputMode.Details)
+                    type += "Details";
+
                 output.AppendLine($"    {name}: {type};");
             }
         }
