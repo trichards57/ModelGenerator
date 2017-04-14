@@ -94,7 +94,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 5
  testRunner.Given("there is a single property", ((string)(null)), table1, "Given ");
 #line 8
- testRunner.And(string.Format("the generator is in {0} mode", mode), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("the property generator is in {0} mode", mode), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 9
  testRunner.When("you create a single property", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 10
@@ -121,7 +121,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 21
  testRunner.Given("there is a single property", ((string)(null)), table2, "Given ");
 #line 24
- testRunner.And("the generator is in Model mode", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("the property generator is in Model mode", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 25
  testRunner.When("you create a single property", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 26
@@ -154,7 +154,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 30
  testRunner.Given("there is a single property", ((string)(null)), table3, "Given ");
 #line 33
- testRunner.And(string.Format("the generator is in {0} mode", mode), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("the property generator is in {0} mode", mode), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 34
  testRunner.When("you create a single property", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 35
@@ -185,7 +185,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 46
  testRunner.Given("there is a single property", ((string)(null)), table4, "Given ");
 #line 49
- testRunner.And("the generator is in Model mode", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("the property generator is in Model mode", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 50
  testRunner.When("you create a single property", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 51
@@ -220,7 +220,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 55
  testRunner.Given("there is a single property", ((string)(null)), table5, "Given ");
 #line 58
- testRunner.And(string.Format("the generator is in {0} mode", mode), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("the property generator is in {0} mode", mode), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 59
  testRunner.When("you create a single property", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 60
@@ -251,7 +251,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 71
  testRunner.Given("there is a single property", ((string)(null)), table6, "Given ");
 #line 74
- testRunner.And("the generator is in Model mode", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("the property generator is in Model mode", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 75
  testRunner.When("you create a single property", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 76
@@ -286,7 +286,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 80
  testRunner.Given("there is a single property", ((string)(null)), table7, "Given ");
 #line 83
- testRunner.And(string.Format("the generator is in {0} mode", mode), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("the property generator is in {0} mode", mode), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 84
  testRunner.When("you create a single property", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 85
@@ -317,7 +317,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 96
  testRunner.Given("there is a single property", ((string)(null)), table8, "Given ");
 #line 99
- testRunner.And("the generator is in Model mode", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("the property generator is in Model mode", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 100
  testRunner.When("you create a single property", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 101
@@ -352,7 +352,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 105
  testRunner.Given("there is a single property", ((string)(null)), table9, "Given ");
 #line 108
- testRunner.And(string.Format("the generator is in {0} mode", mode), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("the property generator is in {0} mode", mode), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 109
  testRunner.When("you create a single property", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 110
@@ -386,7 +386,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 121
  testRunner.Given("there is a single property", ((string)(null)), table10, "Given ");
 #line 124
- testRunner.And(string.Format("the generator is in {0} mode", mode), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("the property generator is in {0} mode", mode), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 125
  testRunner.When("you create a single property", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 126
@@ -419,7 +419,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 136
  testRunner.Given("there is a single property", ((string)(null)), table11, "Given ");
 #line 139
- testRunner.And(string.Format("the generator is in {0} mode", mode), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("the property generator is in {0} mode", mode), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 140
  testRunner.When("you create a single property", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 141
@@ -453,7 +453,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 150
  testRunner.Given("there is a single property", ((string)(null)), table12, "Given ");
 #line 153
- testRunner.And(string.Format("the generator is in {0} mode", mode), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("the property generator is in {0} mode", mode), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 154
  testRunner.When("you create a single property", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 155
@@ -486,7 +486,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 165
  testRunner.Given("there is a single property", ((string)(null)), table13, "Given ");
 #line 168
- testRunner.And(string.Format("the generator is in {0} mode", mode), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("the property generator is in {0} mode", mode), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 169
  testRunner.When("you create a single property", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 170
@@ -519,7 +519,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 179
  testRunner.Given("there is a single property", ((string)(null)), table14, "Given ");
 #line 182
- testRunner.And(string.Format("the generator is in {0} mode", mode), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("the property generator is in {0} mode", mode), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 183
  testRunner.When("you create a single property", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 184
@@ -553,7 +553,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 193
  testRunner.Given("there is a single property", ((string)(null)), table15, "Given ");
 #line 196
- testRunner.And(string.Format("the generator is in {0} mode", mode), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("the property generator is in {0} mode", mode), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 197
  testRunner.When("you create a single property", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 198

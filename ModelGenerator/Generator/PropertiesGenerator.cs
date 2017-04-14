@@ -59,10 +59,7 @@ namespace ModelGenerator.Generator
             if (!string.IsNullOrWhiteSpace(property.NavigationPropertyId) && !IsClientSide)
                 output.AppendLine($"\t\t[ForeignKey(\"{property.NavigationPropertyId}\")]");
 
-            var type = property.Type;
-
-            if (_mode != OutputMode.Model)
-                type += _mode.ToString();
+            var type = HelperClasses.GetName(property.Type, _mode);
 
             if (property.GenerateAsList)
             {

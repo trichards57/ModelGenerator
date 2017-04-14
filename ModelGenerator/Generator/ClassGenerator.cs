@@ -1,6 +1,5 @@
 ﻿using ModelGenerator.Model;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -9,15 +8,17 @@ namespace ModelGenerator.Generator
 {
     public class ClassGenerator
     {
-        private string _generatorVersion;
-        private OutputMode _mode;
-        private PropertiesGenerator _propGenerator;
+        private readonly FunctionGenerator _functionGenerator;
+        private readonly string _generatorVersion;
+        private readonly OutputMode _mode;
+        private readonly PropertiesGenerator _propGenerator;
 
         public ClassGenerator(OutputMode mode)
         {
             _mode = mode;
             _generatorVersion = "v" + Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
             _propGenerator = new PropertiesGenerator(mode);
+            _functionGenerator = new FunctionGenerator(mode);
         }
 
         public void CreateClass(Class model, StringBuilder output)
@@ -47,13 +48,9 @@ namespace ModelGenerator.Generator
 
             output.AppendLine("\t{");
 
-            if (_mode == OutputMode.Details || _mode == OutputMode.Summary || _mode == OutputMode.Update)
-                CreateConstructor(model, output);
-
+            _functionGenerator.CreateConstructor(model, output);
             _propGenerator.CreateProperties(model.Properties.OrderBy(p => p.Name), output);
-
-            if (_mode == OutputMode.Model)
-                CreateCloneMethod(model, output);
+            _functionGenerator.CreateCloneMethod(model, output);
 
             if (_mode == OutputMode.Model || _mode == OutputMode.Details || _mode == OutputMode.Summary)
             {
@@ -66,8 +63,7 @@ namespace ModelGenerator.Generator
             if (_mode == OutputMode.Model && model.GenerateSummaryModel)
                 CreateToSummaryMethod(model, output);
 
-            if (_mode == OutputMode.Create)
-                CreateToItemMethod(model, output);
+            _functionGenerator.CreateToItemMethod(model, output);
 
             if (_mode == OutputMode.Update)
                 CreateUpdateItemMethod(model, output);
@@ -109,53 +105,6 @@ namespace ModelGenerator.Generator
             EndNamespace(output);
         }
 
-        private void CreateCloneMethod(Class model, StringBuilder output)
-        {
-            output.AppendLine("\t\tpublic object Clone()");
-            CreateCopyFunction(model, output);
-        }
-
-        private void CreateConstructor(Class model, StringBuilder output)
-        {
-            var name = GetName(model);
-
-            if (_mode == OutputMode.Update)
-            {
-                output.Append($"\t\tpublic {name}() {{ }}");
-                output.AppendLine("\t\t");
-            }
-
-            output.AppendLine($"\t\tpublic {name}({model.Name} item)");
-            output.AppendLine("\t\t{");
-
-            var lines = FilterProperties(model.Properties).OrderBy(p => p.Name).Select(prop =>
-            {
-                if (prop.GenerateAsList)
-                    return $"\t\t\t{prop.Name} = item.{prop.Name}.Select(i=> new {prop.Type}Details(i));";
-                return $"\t\t\t{prop.Name} = item.{prop.Name};";
-            });
-
-            output.Append(string.Join(Environment.NewLine, lines));
-            output.AppendLine();
-            output.AppendLine("\t\t}");
-        }
-
-        private void CreateCopyFunction(Class model, StringBuilder output)
-        {
-            output.AppendLine("\t\t{");
-            output.AppendLine($"\t\t\tvar item = new {model.Name}");
-            output.AppendLine("\t\t\t{");
-
-            var lines = FilterProperties(model.Properties).Where(p => string.IsNullOrWhiteSpace(p.NavigationPropertyId)).OrderBy(p => p.Name).Select(prop => $"\t\t\t\t{ prop.Name} = { prop.Name}");
-
-            output.Append(string.Join("," + Environment.NewLine, lines));
-            output.AppendLine();
-            output.AppendLine("\t\t\t};");
-            output.AppendLine();
-            output.AppendLine("\t\t\treturn item;");
-            output.AppendLine("\t\t}");
-        }
-
         private void CreateEqualsMethods(Class model, StringBuilder output)
         {
             var name = GetName(model);
@@ -174,7 +123,7 @@ namespace ModelGenerator.Generator
             output.AppendLine($"\t\t\tvar res = true;");
             output.AppendLine();
 
-            var lines = FilterProperties(model.Properties).Where(p => string.IsNullOrWhiteSpace(p.NavigationPropertyId)).Where(p => !p.GenerateAsList).OrderBy(p => p.Name)
+            var lines = HelperClasses.FilterProperties(model.Properties, _mode).Where(p => string.IsNullOrWhiteSpace(p.NavigationPropertyId)).Where(p => !p.GenerateAsList).OrderBy(p => p.Name)
                 .Select(prop =>
                 {
                     if (prop.Type == "DateTime" || prop.Type == "DateTimeOffset")
@@ -198,7 +147,7 @@ namespace ModelGenerator.Generator
             output.AppendLine("\t\t\tint hash = 17;");
             output.AppendLine();
 
-            var lines = FilterProperties(model.Properties).Where(p => string.IsNullOrWhiteSpace(p.NavigationPropertyId)).OrderBy(p => p.Name).Select(prop => $"\t\t\thash = hash * 31 + {prop.Name}.GetHashCode();");
+            var lines = HelperClasses.FilterProperties(model.Properties, _mode).Where(p => string.IsNullOrWhiteSpace(p.NavigationPropertyId)).OrderBy(p => p.Name).Select(prop => $"\t\t\thash = hash * 31 + {prop.Name}.GetHashCode();");
 
             output.Append(string.Join(Environment.NewLine, lines));
             output.AppendLine();
@@ -215,12 +164,6 @@ namespace ModelGenerator.Generator
             output.AppendLine("\t\t}");
         }
 
-        private void CreateToItemMethod(Class model, StringBuilder output)
-        {
-            output.AppendLine($"\t\tpublic {model.Name} ToItem()");
-            CreateCopyFunction(model, output);
-        }
-
         private void CreateToSummaryMethod(Class model, StringBuilder output)
         {
             output.AppendLine($"\t\tpublic {model.Name}Summary ToSummary()");
@@ -234,7 +177,7 @@ namespace ModelGenerator.Generator
             output.AppendLine($"\t\tpublic void UpdateItem({model.Name} item)");
             output.AppendLine("\t\t{");
 
-            var lines = FilterProperties(model.Properties).OrderBy(p => p.Name).Select(prop => $"\t\t\titem.{ prop.Name} = { prop.Name};");
+            var lines = HelperClasses.FilterProperties(model.Properties, _mode).OrderBy(p => p.Name).Select(prop => $"\t\t\titem.{ prop.Name} = { prop.Name};");
 
             output.Append(string.Join(Environment.NewLine, lines));
             output.AppendLine();
@@ -271,25 +214,6 @@ namespace ModelGenerator.Generator
             output.AppendLine("}");
             output.AppendLine();
             output.AppendLine("#pragma warning restore 1591");
-        }
-
-        private IEnumerable<Property> FilterProperties(IEnumerable<Property> properties)
-        {
-            switch (_mode)
-            {
-                case OutputMode.Create:
-                    return properties.Where(c => c.IncludeInCreate);
-
-                case OutputMode.Details:
-                    return properties.Where(c => c.IncludeInDetail);
-
-                case OutputMode.Summary:
-                    return properties.Where(c => c.IncludeInSummary);
-
-                case OutputMode.Update:
-                    return properties.Where(c => c.IncludeInUpdate);
-            }
-            return properties;
         }
 
         private string GetName(Class model)

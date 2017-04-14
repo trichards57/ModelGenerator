@@ -69,9 +69,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CopyMethodGenerator.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CopyMethodGenerator.feature</DependentUpon>
+    </Compile>
+    <Compile Include="ConstructorGenerator.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ConstructorGenerator.feature</DependentUpon>
+    </Compile>
+    <Compile Include="FunctionGeneratorSteps.cs" />
+    <Compile Include="PropertiesGenerator.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PropertiesGenerator.feature</DependentUpon>
+    </Compile>
     <Compile Include="PropertyGeneratorSteps.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PropertiesGenerator.feature.cs" />
     <Compile Include="PropertyGenerator.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -80,8 +95,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="CopyMethodGenerator.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>CopyMethodGenerator.feature.cs</LastGenOutput>
+    </None>
+    <None Include="ConstructorGenerator.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>ConstructorGenerator.feature.cs</LastGenOutput>
+    </None>
     <None Include="packages.config" />
-    <None Include="PropertiesGenerator.feature" />
+    <None Include="PropertiesGenerator.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>PropertiesGenerator.feature.cs</LastGenOutput>
+    </None>
     <None Include="PropertyGenerator.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>PropertyGenerator.feature.cs</LastGenOutput>

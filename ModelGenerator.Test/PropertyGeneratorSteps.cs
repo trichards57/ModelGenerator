@@ -18,7 +18,7 @@ namespace ModelGenerator.Test
         private IEnumerable<Property> _testProperties;
         private Property _testProperty;
 
-        [Given(@"the generator is in (.*) mode")]
+        [Given(@"the property generator is in (.*) mode")]
         public void GivenTheGeneratorIsInMode(OutputMode mode)
         {
             _generator = new PropertiesGenerator(mode);
