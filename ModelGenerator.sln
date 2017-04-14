@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		License.md = License.md
 		README.md = README.md
 		tests.bat = tests.bat
+		upload-results.ps1 = upload-results.ps1
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelGenerator", "ModelGenerator\ModelGenerator.csproj", "{36B94B7B-D2D5-42A4-A581-753A81B4156B}"

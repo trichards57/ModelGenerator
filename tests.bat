@@ -2,7 +2,7 @@
 mkdir tools
 mkdir reports\coverage\historydir
 
-nuget install OpenCover -ExcludeVersion -OutputDirectory  tools
+nuget install OpenCover -ExcludeVersion -OutputDirectory tools
 nuget install xunit.runner.console -ExcludeVersion -OutputDirectory tools
 nuget install ReportGenerator -ExcludeVersion -OutputDirectory tools
 nuget install SpecFlow -ExcludeVersion -OutputDirectory tools
