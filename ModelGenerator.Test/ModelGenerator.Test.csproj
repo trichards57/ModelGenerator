@@ -69,6 +69,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EqualsMethodGenerator.feature.cs">
+      <DependentUpon>EqualsMethodGenerator.feature</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="CopyMethodGenerator.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -95,6 +100,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="EqualsMethodGenerator.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>EqualsMethodGenerator.feature.cs</LastGenOutput>
+    </None>
     <None Include="CopyMethodGenerator.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>CopyMethodGenerator.feature.cs</LastGenOutput>
