@@ -164,6 +164,136 @@ namespace ModelGenerator.Tests
             result.Should().NotContain(unexpectedProperties);
         }
 
+        [Theory]
+        [InlineData(OutputMode.Update), InlineData(OutputMode.Details), InlineData(OutputMode.Summary)]
+        public void ConstructorShouldOutputCopyAndDefaultConstructors(OutputMode mode)
+        {
+            var generator = new FunctionGenerator(mode);
+
+            var output = new StringBuilder();
+
+            generator.CreateConstructor(TestModel, output);
+
+            var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => s.Trim());
+
+            var expectedProperties = TestModel.Properties.Where(p => Helpers.FilterMode(p, mode))
+                .Select(s => s.GenerateAsList ? $"{s.Name} = item.{s.Name}.Select(i => new {s.Type}{mode.ToString()}(i));" : $"{s.Name} = item.{s.Name};");
+            var unexpectedProperties = TestModel.Properties.Where(p => !Helpers.FilterMode(p, mode))
+                .Select(s => s.GenerateAsList ? $"{s.Name} = item.{s.Name}.Select(i => new {s.Type}{mode.ToString()}(i));" : $"{s.Name} = item.{s.Name};");
+
+            if (mode == OutputMode.Update)
+                result.Should().Contain($"public {TestModel.Name}{mode.ToString()}() {{ }}");
+
+            result.Should().Contain($"public {TestModel.Name}{mode.ToString()}({TestModel.Name} item)");
+            result.Should().Contain(expectedProperties);
+            result.Should().NotContain(unexpectedProperties);
+        }
+
+        [Theory]
+        [InlineData(OutputMode.Create), InlineData(OutputMode.Model)]
+        public void CreateAndModelConstructorShouldOutputNothing(OutputMode mode)
+        {
+            var generator = new FunctionGenerator(mode);
+
+            var output = new StringBuilder();
+
+            generator.CreateConstructor(TestModel, output);
+
+            var result = output.ToString();
+
+            result.Should().BeEmpty();
+        }
+
+        [Theory]
+        [InlineData(OutputMode.Create), InlineData(OutputMode.Details), InlineData(OutputMode.Model), InlineData(OutputMode.Summary), InlineData(OutputMode.Update)]
+        public void CreateEqualsShouldCompareDateTimesWithTolerance(OutputMode mode)
+        {
+            var model = new Class
+            {
+                Name = _fixture.Create<string>(),
+                Properties = new List<Property>
+                {
+                    new Property {
+                        Name = "N1",
+                        Type = "DateTime",
+                        IncludeInUpdate = true,
+                        IncludeInDetail = true,
+                        IncludeInSummary = true,
+                        IncludeInCreate = true,
+                    },
+                    new Property {
+                        Name = "N2",
+                        Type = "DateTimeOffset",
+                        IncludeInUpdate = true,
+                        IncludeInDetail = true,
+                        IncludeInSummary = true,
+                        IncludeInCreate = true,
+                    }
+                }
+            };
+
+            var generator = new FunctionGenerator(mode);
+
+            var output = new StringBuilder();
+
+            generator.CreateEqualsMethods(model, output);
+
+            var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => s.Trim());
+
+            var expectedProperties = model.Properties.Select(s => $"res &= ({s.Name} - other.{s.Name}).TotalSeconds < 30;");
+
+            result.Should().Contain(expectedProperties);
+        }
+
+        [Theory]
+        [InlineData(OutputMode.Create), InlineData(OutputMode.Details), InlineData(OutputMode.Model), InlineData(OutputMode.Summary), InlineData(OutputMode.Update)]
+        public void CreateEqualsShouldCompareOnlyNonListNonValidationProperties(OutputMode mode)
+        {
+            var generator = new FunctionGenerator(mode);
+
+            var output = new StringBuilder();
+
+            generator.CreateEqualsMethods(TestModel, output);
+
+            var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => s.Trim());
+
+            var expectedProperties = TestModel.Properties.Where(p => Helpers.FilterMode(p, mode) && !p.GenerateAsList && string.IsNullOrWhiteSpace(p.NavigationPropertyId))
+                .Select(s => $"res &= {s.Name}.Equals(other.{s.Name});");
+            var unexpectedProperties = TestModel.Properties.Where(p => !Helpers.FilterMode(p, mode) || p.GenerateAsList || !string.IsNullOrWhiteSpace(p.NavigationPropertyId))
+                .Select(s => $"res &= {s.Name}.Equals(other.{s.Name});");
+
+            result.Should().Contain("public override bool Equals(object other)");
+            result.Should().Contain($"public bool Equals({TestModel.Name}{(mode != OutputMode.Model ? mode.ToString() : "")} other)");
+            result.Should().Contain(expectedProperties);
+            result.Should().NotContain(unexpectedProperties);
+        }
+
+        [Theory]
+        [InlineData(OutputMode.Create), InlineData(OutputMode.Details), InlineData(OutputMode.Model), InlineData(OutputMode.Summary), InlineData(OutputMode.Update)]
+        public void CreateHashCodeShouldHashOnlyNonListNonValidationProperties(OutputMode mode)
+        {
+            var generator = new FunctionGenerator(mode);
+
+            var output = new StringBuilder();
+
+            generator.CreateHashCodeMethod(TestModel, output);
+
+            var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => s.Trim());
+
+            var expectedProperties = TestModel.Properties.Where(p => Helpers.FilterMode(p, mode) && !p.GenerateAsList && string.IsNullOrWhiteSpace(p.NavigationPropertyId))
+                .Select(s => $"hash = hash * 31 + {s.Name}.GetHashCode();");
+            var unexpectedProperties = TestModel.Properties.Where(p => !Helpers.FilterMode(p, mode) || p.GenerateAsList || !string.IsNullOrWhiteSpace(p.NavigationPropertyId))
+                .Select(s => $"hash = hash * 31 + {s.Name}.GetHashCode();");
+
+            result.Should().Contain("public override int GetHashCode()");
+            result.Should().Contain(expectedProperties);
+            result.Should().NotContain(unexpectedProperties);
+        }
+
         [Fact]
         public void CreateViewModelToItemMethodShouldOnlyIncludeReleventNonListProperties()
         {
@@ -199,47 +329,6 @@ namespace ModelGenerator.Tests
             var result = output.ToString();
 
             result.Should().BeEmpty();
-        }
-
-        [Theory]
-        [InlineData(OutputMode.Create), InlineData(OutputMode.Model)]
-        public void CreateAndModelConstructorShouldOutputNothing(OutputMode mode)
-        {
-            var generator = new FunctionGenerator(mode);
-
-            var output = new StringBuilder();
-
-            generator.CreateConstructor(TestModel, output);
-
-            var result = output.ToString();
-
-            result.Should().BeEmpty();
-        }
-
-        [Theory]
-        [InlineData(OutputMode.Update), InlineData(OutputMode.Details), InlineData(OutputMode.Summary)]
-        public void UpdateConstructorShouldOutputCopyAndDefaultConstructors(OutputMode mode)
-        {
-            var generator = new FunctionGenerator(mode);
-
-            var output = new StringBuilder();
-
-            generator.CreateConstructor(TestModel, output);
-
-            var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(s => s.Trim());
-
-            var expectedProperties = TestModel.Properties.Where(p => Helpers.FilterMode(p, mode))
-                .Select(s => s.GenerateAsList ? $"{s.Name} = item.{s.Name}.Select(i => new {s.Type}{mode.ToString()}(i));" : $"{s.Name} = item.{s.Name};");
-            var unexpectedProperties = TestModel.Properties.Where(p => !Helpers.FilterMode(p, mode))
-                .Select(s => s.GenerateAsList ? $"{s.Name} = item.{s.Name}.Select(i => new {s.Type}{mode.ToString()}(i));" : $"{s.Name} = item.{s.Name};");
-
-            if (mode == OutputMode.Update)
-                result.Should().Contain($"public {TestModel.Name}{mode.ToString()}() {{ }}");
-
-            result.Should().Contain($"public {TestModel.Name}{mode.ToString()}({TestModel.Name} item)");
-            result.Should().Contain(expectedProperties);
-            result.Should().NotContain(unexpectedProperties);
         }
     }
 }

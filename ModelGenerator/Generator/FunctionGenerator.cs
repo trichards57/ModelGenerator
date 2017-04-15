@@ -48,6 +48,61 @@ namespace ModelGenerator.Generator
             output.AppendLine("\t\t}");
         }
 
+        public void CreateEqualsMethods(Class model, StringBuilder output)
+        {
+            var name = HelperClasses.GetName(model.Name, _mode);
+
+            output.AppendLine();
+            output.AppendLine($"\t\tpublic override bool Equals(object other)");
+            output.AppendLine("\t\t{");
+            output.AppendLine($"\t\t\treturn Equals(other as {name});");
+            output.AppendLine("\t\t}");
+            output.AppendLine();
+            output.AppendLine($"\t\tpublic bool Equals({name} other)");
+            output.AppendLine("\t\t{");
+            output.AppendLine("\t\t\tif (other == null)");
+            output.AppendLine("\t\t\t\treturn false;");
+            output.AppendLine();
+            output.AppendLine($"\t\t\tvar res = true;");
+            output.AppendLine();
+
+            var lines = HelperClasses.FilterProperties(model.Properties, _mode).Where(p => string.IsNullOrWhiteSpace(p.NavigationPropertyId)).Where(p => !p.GenerateAsList).OrderBy(p => p.Name)
+                .Select(prop =>
+                {
+                    if (prop.Type == "DateTime" || prop.Type == "DateTimeOffset")
+                        return $"\t\t\tres &= ({prop.Name} - other.{prop.Name}).TotalSeconds < 30;";
+                    else
+                        return $"\t\t\tres &= {prop.Name}.Equals(other.{prop.Name});";
+                });
+
+            output.Append(string.Join(Environment.NewLine, lines));
+            output.AppendLine();
+            output.AppendLine();
+            output.AppendLine("\t\t\treturn res;");
+            output.AppendLine("\t\t}");
+        }
+
+        public void CreateHashCodeMethod(Class model, StringBuilder output)
+        {
+            output.AppendLine();
+            output.AppendLine($"\t\tpublic override int GetHashCode()");
+            output.AppendLine("\t\t{");
+            output.AppendLine("\t\t\tint hash = 17;");
+            output.AppendLine();
+
+            var lines = HelperClasses.FilterProperties(model.Properties, _mode)
+                .Where(p => string.IsNullOrWhiteSpace(p.NavigationPropertyId))
+                .Where(p => !p.GenerateAsList)
+                .OrderBy(p => p.Name)
+                .Select(prop => $"\t\t\thash = hash * 31 + {prop.Name}.GetHashCode();");
+
+            output.Append(string.Join(Environment.NewLine, lines));
+            output.AppendLine();
+            output.AppendLine();
+            output.AppendLine("\t\t\treturn hash;");
+            output.AppendLine("\t\t}");
+        }
+
         public void CreateToItemMethod(Class model, StringBuilder output)
         {
             if (_mode != OutputMode.Create)
