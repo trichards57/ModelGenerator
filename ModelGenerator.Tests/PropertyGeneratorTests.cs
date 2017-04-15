@@ -139,7 +139,7 @@ namespace ModelGenerator.Tests
                     return s => s.StartsWith($"public {testProperties[n].Type} {testProperties[n].Name}");
                 };
 
-            var expectedProps = testProperties.Where(p => FilterMode(p, mode))
+            var expectedProps = testProperties.Where(p => Helpers.FilterMode(p, mode))
                 .Select(p => $"public {p.Type} {p.Name} {{ get; set; }}");
 
             result.Should().Contain(expectedProps);
@@ -427,25 +427,6 @@ namespace ModelGenerator.Tests
             result.Should().Be(expected);
         }
 
-        private bool FilterMode(Property prop, OutputMode mode)
-        {
-            switch (mode)
-            {
-                case OutputMode.Create:
-                    return prop.IncludeInCreate;
-
-                case OutputMode.Details:
-                    return prop.IncludeInDetail;
-
-                case OutputMode.Summary:
-                    return prop.IncludeInSummary;
-
-                case OutputMode.Update:
-                    return prop.IncludeInUpdate;
-
-                default:
-                    return true;
-            }
-        }
+        
     }
 }
