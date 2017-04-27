@@ -112,6 +112,38 @@ namespace ModelGenerator.Generator
             CreateCopyFunction(model, output);
         }
 
+        public void CreateToViewModelMethod(Class model, OutputMode mode, StringBuilder output)
+        {
+            if (_mode != OutputMode.Model)
+                return;
+
+            var name = HelperClasses.GetName("To", mode);
+            var returnType = HelperClasses.GetName(model.Name, mode);
+
+            output.AppendLine($"\t\tpublic {returnType} {name}()");
+            output.AppendLine("\t\t{");
+            output.AppendLine($"\t\treturn new {returnType}(this);");
+            output.AppendLine("\t\t}");
+        }
+
+        public void CreateUpdateItemMethod(Class model, StringBuilder output)
+        {
+            if (_mode != OutputMode.Update)
+                return;
+
+            output.AppendLine($"\t\tpublic void UpdateItem({model.Name} item)");
+            output.AppendLine("\t\t{");
+
+            var lines = HelperClasses.FilterProperties(model.Properties, _mode)
+                .Where(p => !p.GenerateAsList)
+                .OrderBy(p => p.Name)
+                .Select(prop => $"\t\t\titem.{ prop.Name } = { prop.Name };");
+
+            output.Append(string.Join(Environment.NewLine, lines));
+            output.AppendLine();
+            output.AppendLine("\t\t}");
+        }
+
         private void CreateCopyFunction(Class model, StringBuilder output)
         {
             output.AppendLine("\t\t{");
@@ -122,7 +154,7 @@ namespace ModelGenerator.Generator
                 .Where(p => !p.GenerateAsList)
                 .OrderBy(p => p.Name))
             {
-                output.AppendLine($"\t\t\titem.{ prop.Name} = { prop.Name};");
+                output.AppendLine($"\t\t\titem.{ prop.Name } = { prop.Name };");
             }
 
             output.AppendLine();

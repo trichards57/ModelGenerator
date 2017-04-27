@@ -54,15 +54,14 @@ namespace ModelGenerator.Generator
             _functionGenerator.CreateEqualsMethods(model, output);
             _functionGenerator.CreateHashCodeMethod(model, output);
 
-            if (_mode == OutputMode.Model && model.GenerateDetailModel)
-                CreateToDetailMethod(model, output);
-            if (_mode == OutputMode.Model && model.GenerateSummaryModel)
-                CreateToSummaryMethod(model, output);
+            if (model.GenerateDetailModel)
+                _functionGenerator.CreateToViewModelMethod(model, OutputMode.Details, output);
+            if (model.GenerateSummaryModel)
+                _functionGenerator.CreateToViewModelMethod(model, OutputMode.Summary, output);
 
             _functionGenerator.CreateToItemMethod(model, output);
 
-            if (_mode == OutputMode.Update)
-                CreateUpdateItemMethod(model, output);
+            _functionGenerator.CreateUpdateItemMethod(model, output);
 
             output.AppendLine("\t}");
         }
@@ -99,34 +98,6 @@ namespace ModelGenerator.Generator
                 output.AppendLine();
             }
             EndNamespace(output);
-        }
-
-        private void CreateToDetailMethod(Class model, StringBuilder output)
-        {
-            output.AppendLine($"\t\tpublic {model.Name}Details ToDetail()");
-            output.AppendLine("\t\t{");
-            output.AppendLine($"\t\t\treturn new {model.Name}Details(this);");
-            output.AppendLine("\t\t}");
-        }
-
-        private void CreateToSummaryMethod(Class model, StringBuilder output)
-        {
-            output.AppendLine($"\t\tpublic {model.Name}Summary ToSummary()");
-            output.AppendLine("\t\t{");
-            output.AppendLine($"\t\t\treturn new {model.Name}Summary(this);");
-            output.AppendLine("\t\t}");
-        }
-
-        private void CreateUpdateItemMethod(Class model, StringBuilder output)
-        {
-            output.AppendLine($"\t\tpublic void UpdateItem({model.Name} item)");
-            output.AppendLine("\t\t{");
-
-            var lines = HelperClasses.FilterProperties(model.Properties, _mode).OrderBy(p => p.Name).Select(prop => $"\t\t\titem.{ prop.Name} = { prop.Name};");
-
-            output.Append(string.Join(Environment.NewLine, lines));
-            output.AppendLine();
-            output.AppendLine("\t\t}");
         }
 
         private void CreateUsings(Classes model, StringBuilder output)

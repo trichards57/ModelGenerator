@@ -294,6 +294,43 @@ namespace ModelGenerator.Tests
             result.Should().NotContain(unexpectedProperties);
         }
 
+        [Theory]
+        [InlineData(OutputMode.Create), InlineData(OutputMode.Details), InlineData(OutputMode.Summary), InlineData(OutputMode.Update)]
+        public void CreateToViewModelFunctionShouldCallConstructorInModelMode(OutputMode mode)
+        {
+            var generator = new FunctionGenerator(OutputMode.Model);
+
+            var output = new StringBuilder();
+            generator.CreateToViewModelMethod(TestModel, mode, output);
+
+            var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => s.Trim());
+
+            var name = HelperClasses.GetName("To", mode);
+            var returnType = HelperClasses.GetName(TestModel.Name, mode);
+
+            result.Should().Contain($"public {returnType} {name}()");
+            result.Should().Contain($"return new {returnType}(this);");
+        }
+
+        [Theory]
+        [InlineData(OutputMode.Create), InlineData(OutputMode.Details), InlineData(OutputMode.Summary), InlineData(OutputMode.Update)]
+        public void CreateToViewModelFunctionShouldHaveNoOutputInOtherModes(OutputMode mode)
+        {
+            var generator = new FunctionGenerator(mode);
+
+            var output = new StringBuilder();
+            generator.CreateToViewModelMethod(TestModel, OutputMode.Create, output);
+            generator.CreateToViewModelMethod(TestModel, OutputMode.Details, output);
+            generator.CreateToViewModelMethod(TestModel, OutputMode.Summary, output);
+            generator.CreateToViewModelMethod(TestModel, OutputMode.Update, output);
+
+            var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => s.Trim());
+
+            result.Should().BeEmpty();
+        }
+
         [Fact]
         public void CreateViewModelToItemMethodShouldOnlyIncludeReleventNonListProperties()
         {
@@ -329,6 +366,43 @@ namespace ModelGenerator.Tests
             var result = output.ToString();
 
             result.Should().BeEmpty();
+        }
+
+        [Theory]
+        [InlineData(OutputMode.Details), InlineData(OutputMode.Model), InlineData(OutputMode.Summary), InlineData(OutputMode.Create)]
+        public void NonUpdateViewModelUpdateItemMethodShouldOutputNothing(OutputMode mode)
+        {
+            var generator = new FunctionGenerator(mode);
+
+            var output = new StringBuilder();
+
+            generator.CreateUpdateItemMethod(TestModel, output);
+
+            var result = output.ToString();
+
+            result.Should().BeEmpty();
+        }
+
+        [Fact]
+        public void UpdateViewModelUpdateItemMethodShouldOnlyIncludeReleventNonListProperties()
+        {
+            var generator = new FunctionGenerator(OutputMode.Update);
+
+            var output = new StringBuilder();
+
+            generator.CreateUpdateItemMethod(TestModel, output);
+
+            var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => s.Trim());
+
+            var expectedProperties = TestModel.Properties.Where(p => Helpers.FilterMode(p, OutputMode.Update) && !p.GenerateAsList)
+                .Select(s => $"item.{s.Name} = {s.Name};");
+            var unexpectedProperties = TestModel.Properties.Where(p => !Helpers.FilterMode(p, OutputMode.Update) || p.GenerateAsList)
+               .Select(s => $"item.{s.Name} = {s.Name};");
+
+            result.First().Should().Be($"public void UpdateItem({TestModel.Name} item)");
+            result.Should().Contain(expectedProperties);
+            result.Should().NotContain(unexpectedProperties);
         }
     }
 }
