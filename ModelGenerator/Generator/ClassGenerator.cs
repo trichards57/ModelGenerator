@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ModelGenerator.Generator
 {
-    public class ClassGenerator
+    internal class ClassGenerator
     {
         private readonly FunctionGenerator _functionGenerator;
         private readonly string _generatorVersion;

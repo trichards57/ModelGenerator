@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ModelGenerator.Generator
 {
-    public class PropertiesGenerator
+    internal class PropertiesGenerator
     {
         private OutputMode _mode;
 

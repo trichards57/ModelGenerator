@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ModelGenerator.Generator
 {
-    public class FunctionGenerator
+    internal class FunctionGenerator
     {
         private readonly OutputMode _mode;
 

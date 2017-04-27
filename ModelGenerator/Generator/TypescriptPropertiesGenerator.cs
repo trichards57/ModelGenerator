@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ModelGenerator.Generator
 {
-    public class TypescriptPropertiesGenerator
+    internal class TypescriptPropertiesGenerator
     {
         private OutputMode _mode;
 

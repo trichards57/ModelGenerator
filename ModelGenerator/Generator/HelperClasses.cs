@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ModelGenerator.Generator
 {
-    public static class HelperClasses
+    internal static class HelperClasses
     {
         public static IEnumerable<Property> FilterProperties(IEnumerable<Property> properties, OutputMode mode)
         {
