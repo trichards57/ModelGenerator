@@ -38,6 +38,77 @@ namespace ModelGenerator.Tests
         }
 
         [Fact]
+        public void CreateModelWithDetailClassShouldCreateDetailableClass()
+        {
+            var versionNumber = typeof(ClassGenerator).Assembly.GetName().Version.ToString(3);
+            var generator = new ClassGenerator(OutputMode.Model);
+
+            var testModel = new Class
+            {
+                Name = _fixture.Create<string>(),
+                Properties = new List<Property>(),
+                GenerateDetailModel = true
+            };
+
+            var output = new StringBuilder();
+
+            generator.CreateClass(testModel, output);
+
+            var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => s.Trim());
+
+            result.Should().Contain($"public partial class {testModel.Name} : IIdentifiable, ICloneable, IEquatable<{testModel.Name}>, IDetailable<{HelperClasses.GetName(testModel.Name, OutputMode.Details)}>");
+            result.Should().Contain($"[GeneratedCode(\"Model Generator\", \"v{versionNumber}\"), ExcludeFromCodeCoverage]");
+        }
+
+        [Fact]
+        public void CreateModelWithSummaryClassShouldCreateSummarisableClass()
+        {
+            var versionNumber = typeof(ClassGenerator).Assembly.GetName().Version.ToString(3);
+            var generator = new ClassGenerator(OutputMode.Model);
+
+            var testModel = new Class
+            {
+                Name = _fixture.Create<string>(),
+                Properties = new List<Property>(),
+                GenerateSummaryModel = true
+            };
+
+            var output = new StringBuilder();
+
+            generator.CreateClass(testModel, output);
+
+            var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => s.Trim());
+
+            result.Should().Contain($"public partial class {testModel.Name} : IIdentifiable, ICloneable, IEquatable<{testModel.Name}>, ISummarisable<{HelperClasses.GetName(testModel.Name, OutputMode.Summary)}>");
+            result.Should().Contain($"[GeneratedCode(\"Model Generator\", \"v{versionNumber}\"), ExcludeFromCodeCoverage]");
+        }
+
+        [Fact]
+        public void CreateViewModelModelCreateClass()
+        {
+            var versionNumber = typeof(ClassGenerator).Assembly.GetName().Version.ToString(3);
+            var generator = new ClassGenerator(OutputMode.Create);
+
+            var testModel = new Class
+            {
+                Name = _fixture.Create<string>(),
+                Properties = new List<Property>(),
+            };
+
+            var output = new StringBuilder();
+
+            generator.CreateClass(testModel, output);
+
+            var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => s.Trim());
+
+            result.Should().Contain($"public partial class {HelperClasses.GetName(testModel.Name, OutputMode.Create)} : ICreateViewModel<{testModel.Name}>");
+            result.Should().Contain($"[GeneratedCode(\"Model Generator\", \"v{versionNumber}\"), ExcludeFromCodeCoverage]");
+        }
+
+        [Fact]
         public void DetailsModeUsingsShouldIncludeSpecifiedItems()
         {
             var generator = new ClassGenerator(OutputMode.Details);
@@ -155,6 +226,29 @@ namespace ModelGenerator.Tests
             result.Should().Contain($"using {testModel.RootNamespace}.{testModel.ModelNamespace};");
 
             result.Should().OnlyHaveUniqueItems().And.BeInAscendingOrder();
+        }
+
+        [Fact]
+        public void UpdateViewModelModelCreateClass()
+        {
+            var versionNumber = typeof(ClassGenerator).Assembly.GetName().Version.ToString(3);
+            var generator = new ClassGenerator(OutputMode.Update);
+
+            var testModel = new Class
+            {
+                Name = _fixture.Create<string>(),
+                Properties = new List<Property>(),
+            };
+
+            var output = new StringBuilder();
+
+            generator.CreateClass(testModel, output);
+
+            var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => s.Trim());
+
+            result.Should().Contain($"public partial class {HelperClasses.GetName(testModel.Name, OutputMode.Update)} : IUpdateViewModel<{testModel.Name}>");
+            result.Should().Contain($"[GeneratedCode(\"Model Generator\", \"v{versionNumber}\"), ExcludeFromCodeCoverage]");
         }
 
         [Theory]
