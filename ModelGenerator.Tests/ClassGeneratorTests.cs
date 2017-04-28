@@ -228,6 +228,30 @@ namespace ModelGenerator.Tests
             result.Should().OnlyHaveUniqueItems().And.BeInAscendingOrder();
         }
 
+        [Theory]
+        [InlineData(OutputMode.Summary), InlineData(OutputMode.Details)]
+        public void OtherViewModelModelCreateClass(OutputMode mode)
+        {
+            var versionNumber = typeof(ClassGenerator).Assembly.GetName().Version.ToString(3);
+            var generator = new ClassGenerator(mode);
+
+            var testModel = new Class
+            {
+                Name = _fixture.Create<string>(),
+                Properties = new List<Property>(),
+            };
+
+            var output = new StringBuilder();
+
+            generator.CreateClass(testModel, output);
+
+            var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => s.Trim());
+
+            result.Should().Contain($"public partial class {HelperClasses.GetName(testModel.Name, mode)}");
+            result.Should().Contain($"[GeneratedCode(\"Model Generator\", \"v{versionNumber}\"), ExcludeFromCodeCoverage]");
+        }
+
         [Fact]
         public void UpdateViewModelModelCreateClass()
         {
