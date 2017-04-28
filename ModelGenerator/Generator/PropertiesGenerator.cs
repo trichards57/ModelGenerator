@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ModelGenerator.Generator
 {
-    public class PropertiesGenerator
+    internal class PropertiesGenerator
     {
         private OutputMode _mode;
 
@@ -19,57 +19,21 @@ namespace ModelGenerator.Generator
 
         public void CreateProperties(IEnumerable<Property> properties, StringBuilder output)
         {
-            var selectedProperties = Enumerable.Empty<Property>();
-
-            switch (_mode)
-            {
-                case OutputMode.Details:
-
-                    selectedProperties = properties.Where(p => p.IncludeInDetail);
-                    break;
-
-                case OutputMode.Summary:
-                    selectedProperties = properties.Where(p => p.IncludeInSummary);
-                    break;
-
-                case OutputMode.Create:
-                    selectedProperties = properties.Where(p => p.IncludeInCreate);
-                    break;
-
-                case OutputMode.Update:
-                    selectedProperties = properties.Where(p => p.IncludeInUpdate);
-                    break;
-
-                default:
-                    selectedProperties = properties;
-                    break;
-            }
-
-            foreach (var p in selectedProperties)
+            foreach (var p in HelperClasses.FilterProperties(properties, _mode))
                 CreateProperty(p, output);
         }
 
         public void CreateProperty(Property property, StringBuilder output)
         {
-            if (property.PropertyRequired && !IsReadOnlyMode)
-                output.AppendLine("\t\t[Required]");
-
-            if (property.ValidateAsEmail && !IsReadOnlyMode && IsClientSide)
-                output.AppendLine("\t\t[EmailAddress]");
+            CreateValidationAttributes(property, output);
 
             if (!string.IsNullOrWhiteSpace(property.DisplayName) && IsClientSide)
                 output.AppendLine($"\t\t[Display(Name=\"{property.DisplayName}\")]");
 
-            if (!string.IsNullOrWhiteSpace(property.RegularExpression) && !IsReadOnlyMode)
-                output.AppendLine($"\t\t[RegularExpression(@\"{property.RegularExpression}\")]");
-
             if (!string.IsNullOrWhiteSpace(property.NavigationPropertyId) && !IsClientSide)
                 output.AppendLine($"\t\t[ForeignKey(\"{property.NavigationPropertyId}\")]");
 
-            var type = property.Type;
-
-            if (_mode == OutputMode.Details)
-                type += "Details";
+            var type = HelperClasses.GetName(property.Type, _mode);
 
             if (property.GenerateAsList)
             {
@@ -85,6 +49,18 @@ namespace ModelGenerator.Generator
                 else
                     output.AppendLine($"\t\tpublic {property.Type} {property.Name} {{ get; set; }}");
             }
+        }
+
+        private void CreateValidationAttributes(Property property, StringBuilder output)
+        {
+            if (property.PropertyRequired && !IsReadOnlyMode)
+                output.AppendLine("\t\t[Required]");
+
+            if (property.ValidateAsEmail && !IsReadOnlyMode && IsClientSide)
+                output.AppendLine("\t\t[EmailAddress]");
+
+            if (!string.IsNullOrWhiteSpace(property.RegularExpression) && IsClientSide && !IsReadOnlyMode)
+                output.AppendLine($"\t\t[RegularExpression(@\"{property.RegularExpression}\")]");
         }
     }
 }

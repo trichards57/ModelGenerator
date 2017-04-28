@@ -1,0 +1,20 @@
+Similarity Analyser 2.4.0 - http://www.harukizaemon.com/simian
+Copyright (c) 2003-2015 Simon Harris.  All rights reserved.
+Simian is not free unless used solely for non-commercial or evaluation purposes.
+{failOnDuplication=true, ignoreCharacterCase=true, ignoreCurlyBraces=true, ignoreIdentifierCase=true, ignoreModifiers=true, ignoreStringCase=true, threshold=6}
+Found 0 duplicate lines in 0 blocks in 0 files
+Processed a total of 356 significant (677 raw) lines in 13 files
+Processing time: 0.099sec
+Similarity Analyser 2.4.0 - http://www.harukizaemon.com/simian
+Copyright (c) 2003-2015 Simon Harris.  All rights reserved.
+Simian is not free unless used solely for non-commercial or evaluation purposes.
+{failOnDuplication=true, ignoreCharacterCase=true, ignoreCurlyBraces=true, ignoreIdentifierCase=true, ignoreModifiers=true, ignoreStringCase=true, threshold=6}
+Found 8 duplicate lines in the following files:
+ Between lines 6 and 13 in C:\Users\trich_000\Source\Repos\ModelGenerator\ModelGenerator.Tests\obj\Release\netcoreapp1.1\win7-x86\ModelGenerator.Tests.AssemblyInfo.cs
+ Between lines 14 and 21 in C:\Users\trich_000\Source\Repos\ModelGenerator\ModelGenerator.Tests\obj\Release\net46\ModelGenerator.Tests.AssemblyInfo.cs
+Found 8 duplicate lines in the following files:
+ Between lines 14 and 21 in C:\Users\trich_000\Source\Repos\ModelGenerator\ModelGenerator.Tests\obj\Debug\netcoreapp1.1\ModelGenerator.Tests.AssemblyInfo.cs
+ Between lines 14 and 21 in C:\Users\trich_000\Source\Repos\ModelGenerator\ModelGenerator.Tests\obj\Debug\net46\ModelGenerator.Tests.AssemblyInfo.cs
+Found 32 duplicate lines in 4 blocks in 4 files
+Processed a total of 36 significant (114 raw) lines in 17 files
+Processing time: 0.090sec

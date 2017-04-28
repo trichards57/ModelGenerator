@@ -1,4 +1,4 @@
-﻿version: 0.3.{build}
+﻿version: 1.0.{build}
 image: Visual Studio 2017
 configuration: Release
 before_build:
@@ -13,8 +13,16 @@ build:
   project: ModelGenerator.sln
 after_build:
   - cmd: nuget pack .\ModelGenerator\ModelGenerator.nuspec -version %APPVEYOR_BUILD_VERSION%
+before_test:
+  - cmd: mkdir %APPVEYOR_BUILD_FOLDER%\reports\coverage
+  - cmd: nuget install OpenCover -ExcludeVersion -OutputDirectory tools
+  - cmd: nuget install xunit.runner.console -ExcludeVersion -OutputDirectory tools
+  - cmd: nuget install coveralls.io -ExcludeVersion -OutputDirectory tools
 test_script:
-- cmd: tests.bat
+  - cmd: cd %APPVEYOR_BUILD_FOLDER% && set APPVEYOR_API_URL= && tools\OpenCover\tools\OpenCover.Console.exe -target:"tools\xunit.runner.console\tools\xunit.console.x86.exe" -targetargs:"ModelGenerator.Tests\bin\Release\net46\ModelGenerator.Tests.dll -noShadow -xml test-results.xml" -register:user -output:"reports\coverage\coverage.xml" -skipautoprops -filter:"+[ModelGenerator]*"  -excludebyattribute:*.ExcludeFromCodeCoverage* -mergebyhash -returntargetcode
+after_test:
+  - ps: .\upload-results.ps1
+  - cmd: tools\coveralls.io\tools\coveralls.net.exe reports\coverage\coverage.xml
 environment:
   COVERALLS_REPO_TOKEN:
     secure: KHXvcB9JDeK7JCAJrCzJSuf0U32VdwTaBnAnabdfoBH4PWT64N7I+inB4bZsOHhj

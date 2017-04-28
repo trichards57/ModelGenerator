@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<assemblies timestamp="04/14/2017 00:24:33">
+  <assembly name="C:\Users\trich_000\Source\Repos\ModelGenerator\ModelGenerator.Test\bin\Debug\ModelGenerator.Test.DLL" environment="32-bit .NET 4.0.30319.42000 [collection-per-class, parallel]" test-framework="xUnit.net 2.0.0.2929" run-date="2017-04-14" run-time="00:24:32" config-file="C:\Users\trich_000\Source\Repos\ModelGenerator\ModelGenerator.Test\bin\Debug\ModelGenerator.Test.dll.config" total="20" passed="20" failed="0" skipped="0" time="0.970" errors="0">
+    <errors />
+    <collection total="15" passed="15" failed="0" skipped="0" name="Test collection for ModelGenerator.Test.GeneratePropertyFeature" time="0.438">
+      <test name="ModelGenerator.Test.GeneratePropertyFeature.ABasicPropertyIsGenerated(mode: \&quot;Create\&quot;, exampleTags: [])" type="ModelGenerator.Test.GeneratePropertyFeature" method="ABasicPropertyIsGenerated" time="0.4061056" result="Pass">
+        <traits>
+          <trait name="FeatureTitle" value="Generate Property" />
+          <trait name="Description" value="A basic property is generated" />
+        </traits>
+      </test>
+      <test name="ModelGenerator.Test.GeneratePropertyFeature.ABasicPropertyIsGenerated(mode: \&quot;Details\&quot;, exampleTags: [])" type="ModelGenerator.Test.GeneratePropertyFeature" method="ABasicPropertyIsGenerated" time="0.0011947" result="Pass">
+        <traits>
+          <trait name="FeatureTitle" value="Generate Property" />
+          <trait name="Description" value="A basic property is generated" />
+        </traits>
+      </test>
+      <test name="ModelGenerator.Test.GeneratePropertyFeature.ABasicPropertyIsGenerated(mode: \&quot;Model\&quot;, exampleTags: [])" type="ModelGenerator.Test.GeneratePropertyFeature" method="ABasicPropertyIsGenerated" time="0.0013403" result="Pass">
+        <traits>
+          <trait name="FeatureTitle" value="Generate Property" />
+          <trait name="Description" value="A basic property is generated" />
+        </traits>
+      </test>
+      <test name="ModelGenerator.Test.GeneratePropertyFeature.ABasicPropertyIsGenerated(mode: \&quot;Summary\&quot;, exampleTags: [])" type="ModelGenerator.Test.GeneratePropertyFeature" method="ABasicPropertyIsGenerated" time="0.0010293" result="Pass">
+        <traits>
+          <trait name="FeatureTitle" value="Generate Property" />
+          <trait name="Description" value="A basic property is generated" />
+        </traits>
+      </test>
+      <test name="ModelGenerator.Test.GeneratePropertyFeature.ABasicPropertyIsGenerated(mode: \&quot;Update\&quot;, exampleTags: [])" type="ModelGenerator.Test.GeneratePropertyFeature" method="ABasicPropertyIsGenerated" time="0.000907" result="Pass">
+        <traits>
+          <trait name="FeatureTitle" value="Generate Property" />
+          <trait name="Description" value="A basic property is generated" />
+        </traits>
+      </test>
+      <test name="ModelGenerator.Test.GeneratePropertyFeature.AViewModelListPropertyIsGenerated(mode: \&quot;Create\&quot;, exampleTags: [])" type="ModelGenerator.Test.GeneratePropertyFeature" method="AViewModelListPropertyIsGenerated" time="0.0048571" result="Pass">
+        <traits>
+          <trait name="FeatureTitle" value="Generate Property" />
+          <trait name="Description" value="A view model list property is generated" />
+        </traits>
+      </test>
+      <test name="ModelGenerator.Test.GeneratePropertyFeature.AViewModelListPropertyIsGenerated(mode: \&quot;Details\&quot;, exampleTags: [])" type="ModelGenerator.Test.GeneratePropertyFeature" method="AViewModelListPropertyIsGenerated" time="0.0073585" result="Pass">
+        <traits>
+          <trait name="FeatureTitle" value="Generate Property" />
+          <trait name="Description" value="A view model list property is generated" />
+        </traits>
+      </test>
+      <test name="ModelGenerator.Test.GeneratePropertyFeature.AViewModelListPropertyIsGenerated(mode: \&quot;Summary\&quot;, exampleTags: [])" type="ModelGenerator.Test.GeneratePropertyFeature" method="AViewModelListPropertyIsGenerated" time="0.0009922" result="Pass">
+        <traits>
+          <trait name="FeatureTitle" value="Generate Property" />
+          <trait name="Description" value="A view model list property is generated" />
+        </traits>
+      </test>
+      <test name="ModelGenerator.Test.GeneratePropertyFeature.AViewModelListPropertyIsGenerated(mode: \&quot;Update\&quot;, exampleTags: [])" type="ModelGenerator.Test.GeneratePropertyFeature" method="AViewModelListPropertyIsGenerated" time="0.0009019" result="Pass">
+        <traits>
+          <trait name="FeatureTitle" value="Generate Property" />
+          <trait name="Description" value="A view model list property is generated" />
+        </traits>
+      </test>
+      <test name="A model property is marked with a navigation property id" type="ModelGenerator.Test.GeneratePropertyFeature" method="AModelPropertyIsMarkedWithANavigationPropertyId" time="0.0037547" result="Pass">
+        <traits>
+          <trait name="FeatureTitle" value="Generate Property" />
+          <trait name="Description" value="A model property is marked with a navigation property id" />
+        </traits>
+      </test>
+      <test name="A model list property is generated" type="ModelGenerator.Test.GeneratePropertyFeature" method="AModelListPropertyIsGenerated" time="0.0035765" result="Pass">
+        <traits>
+          <trait name="FeatureTitle" value="Generate Property" />
+          <trait name="Description" value="A model list property is generated" />
+        </traits>
+      </test>
+      <test name="ModelGenerator.Test.GeneratePropertyFeature.AViewModelPropertyIsMarkedWithANavigationPropertyId(mode: \&quot;Create\&quot;, exampleTags: [])" type="ModelGenerator.Test.GeneratePropertyFeature" method="AViewModelPropertyIsMarkedWithANavigationPropertyId" time="0.002772" result="Pass">
+        <traits>
+          <trait name="FeatureTitle" value="Generate Property" />
+          <trait name="Description" value="A view model property is marked with a navigation property id" />
+        </traits>
+      </test>
+      <test name="ModelGenerator.Test.GeneratePropertyFeature.AViewModelPropertyIsMarkedWithANavigationPropertyId(mode: \&quot;Details\&quot;, exampleTags: [])" type="ModelGenerator.Test.GeneratePropertyFeature" method="AViewModelPropertyIsMarkedWithANavigationPropertyId" time="0.0009493" result="Pass">
+        <traits>
+          <trait name="FeatureTitle" value="Generate Property" />
+          <trait name="Description" value="A view model property is marked with a navigation property id" />
+        </traits>
+      </test>
+      <test name="ModelGenerator.Test.GeneratePropertyFeature.AViewModelPropertyIsMarkedWithANavigationPropertyId(mode: \&quot;Summary\&quot;, exampleTags: [])" type="ModelGenerator.Test.GeneratePropertyFeature" method="AViewModelPropertyIsMarkedWithANavigationPropertyId" time="0.0009188" result="Pass">
+        <traits>
+          <trait name="FeatureTitle" value="Generate Property" />
+          <trait name="Description" value="A view model property is marked with a navigation property id" />
+        </traits>
+      </test>
+      <test name="ModelGenerator.Test.GeneratePropertyFeature.AViewModelPropertyIsMarkedWithANavigationPropertyId(mode: \&quot;Update\&quot;, exampleTags: [])" type="ModelGenerator.Test.GeneratePropertyFeature" method="AViewModelPropertyIsMarkedWithANavigationPropertyId" time="0.0008949" result="Pass">
+        <traits>
+          <trait name="FeatureTitle" value="Generate Property" />
+          <trait name="Description" value="A view model property is marked with a navigation property id" />
+        </traits>
+      </test>
+    </collection>
+    <collection total="5" passed="5" failed="0" skipped="0" name="Test collection for ModelGenerator.Test.GeneratingMultipleCModelPropertiesFeature" time="0.455">
+      <test name="The detail view model should only get IncludeInDetail properties" type="ModelGenerator.Test.GeneratingMultipleCModelPropertiesFeature" method="TheDetailViewModelShouldOnlyGetIncludeInDetailProperties" time="0.4060881" result="Pass">
+        <traits>
+          <trait name="FeatureTitle" value="Generating multiple C# model properties" />
+          <trait name="Description" value="The detail view model should only get IncludeInDetail properties" />
+        </traits>
+      </test>
+      <test name="The update view model should only get IncludeInUpdate properties" type="ModelGenerator.Test.GeneratingMultipleCModelPropertiesFeature" method="TheUpdateViewModelShouldOnlyGetIncludeInUpdateProperties" time="0.0164549" result="Pass">
+        <traits>
+          <trait name="FeatureTitle" value="Generating multiple C# model properties" />
+          <trait name="Description" value="The update view model should only get IncludeInUpdate properties" />
+        </traits>
+      </test>
+      <test name="The model should get all properties" type="ModelGenerator.Test.GeneratingMultipleCModelPropertiesFeature" method="TheModelShouldGetAllProperties" time="0.0089028" result="Pass">
+        <traits>
+          <trait name="FeatureTitle" value="Generating multiple C# model properties" />
+          <trait name="Description" value="The model should get all properties" />
+        </traits>
+      </test>
+      <test name="The summary view model should only get IncludeInSummary properties" type="ModelGenerator.Test.GeneratingMultipleCModelPropertiesFeature" method="TheSummaryViewModelShouldOnlyGetIncludeInSummaryProperties" time="0.0142917" result="Pass">
+        <traits>
+          <trait name="FeatureTitle" value="Generating multiple C# model properties" />
+          <trait name="Description" value="The summary view model should only get IncludeInSummary properties" />
+        </traits>
+      </test>
+      <test name="The create view model should only get IncludeInCreate properties" type="ModelGenerator.Test.GeneratingMultipleCModelPropertiesFeature" method="TheCreateViewModelShouldOnlyGetIncludeInCreateProperties" time="0.0089221" result="Pass">
+        <traits>
+          <trait name="FeatureTitle" value="Generating multiple C# model properties" />
+          <trait name="Description" value="The create view model should only get IncludeInCreate properties" />
+        </traits>
+      </test>
+    </collection>
+  </assembly>
+</assemblies>
