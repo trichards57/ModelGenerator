@@ -1,5 +1,6 @@
 ﻿using ModelGenerator.Model;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -23,14 +24,14 @@ namespace ModelGenerator.Generator
 
         public void CreateClass(Class model, StringBuilder output)
         {
-            var name = GetName(model);
+            var name = HelperClasses.GetName(model.Name, _mode);
 
             output.AppendLine($"\t[GeneratedCode(\"Model Generator\", \"{_generatorVersion}\"), ExcludeFromCodeCoverage]");
             output.Append($"\tpublic partial class {name}");
 
             if (_mode == OutputMode.Model)
             {
-                output.Append($": IIdentifiable, ICloneable, IEquatable<{model.Name}>");
+                output.Append($" : IIdentifiable, ICloneable, IEquatable<{model.Name}>");
 
                 if (model.GenerateDetailModel)
                     output.Append($", IDetailable<{model.Name}Details>");
@@ -39,10 +40,10 @@ namespace ModelGenerator.Generator
             }
 
             if (_mode == OutputMode.Create)
-                output.Append($": ICreateViewModel<{model.Name}>");
+                output.Append($" : ICreateViewModel<{model.Name}>");
 
             if (_mode == OutputMode.Update)
-                output.Append($": IUpdateViewModel<{model.Name}>");
+                output.Append($" : IUpdateViewModel<{model.Name}>");
 
             output.AppendLine();
 
@@ -100,62 +101,45 @@ namespace ModelGenerator.Generator
             EndNamespace(output);
         }
 
-        private void CreateUsings(Classes model, StringBuilder output)
+        internal void CreateUsings(Classes model, StringBuilder output)
         {
+            var outputs = new List<string>
+            {
+                "using System.CodeDom.Compiler;",
+                "using System.ComponentModel.DataAnnotations;",
+                "using System.Diagnostics.CodeAnalysis;",
+                "using System;",
+                "using WebsiteHelpers.Interfaces;"
+            };
             if (_mode == OutputMode.Model)
-                output.AppendLine($"using {model.RootNamespace}.{model.ViewModelNamespace};");
-            if (_mode == OutputMode.Create || _mode == OutputMode.Details || _mode == OutputMode.Summary || _mode == OutputMode.Update)
-                output.AppendLine($"using {model.RootNamespace}.{model.ModelNamespace};");
+            {
+                outputs.Add("using System.Collections.Generic;");
+                outputs.Add("using System.ComponentModel.DataAnnotations.Schema;");
+                outputs.Add($"using {model.RootNamespace}.{model.ViewModelNamespace};");
+            }
+            else if (_mode == OutputMode.Details)
+            {
+                outputs.Add("using System.Collections.Generic;");
+                outputs.Add("using System.Linq;");
+                outputs.Add($"using {model.RootNamespace}.{model.ModelNamespace};");
+            }
+            else
+            {
+                outputs.Add($"using {model.RootNamespace}.{model.ModelNamespace};");
+            }
 
-            output.AppendLine("using System;");
-            output.AppendLine("using System.CodeDom.Compiler;");
+            outputs.Sort();
 
-            if (_mode == OutputMode.Model || _mode == OutputMode.Details)
-                output.AppendLine("using System.Collections.Generic;");
-
-            if (_mode == OutputMode.Model)
-                output.AppendLine("using System.ComponentModel.DataAnnotations.Schema;");
-
-            output.AppendLine("using System.ComponentModel.DataAnnotations;");
-            output.AppendLine("using System.Diagnostics.CodeAnalysis;");
-            if (_mode == OutputMode.Details)
-                output.AppendLine($"using System.Linq;");
-            output.AppendLine($"using WebsiteHelpers.Interfaces;");
-
+            output.AppendLine(string.Join(Environment.NewLine, outputs));
             output.AppendLine();
         }
 
-        private void EndNamespace(StringBuilder output)
+        internal void EndNamespace(StringBuilder output)
         {
             output.AppendLine("}");
         }
 
-        private string GetName(Class model)
-        {
-            var name = model.Name;
-
-            switch (_mode)
-            {
-                case OutputMode.Create:
-                    name += "Create";
-                    break;
-
-                case OutputMode.Details:
-                    name += "Details";
-                    break;
-
-                case OutputMode.Summary:
-                    name += "Summary";
-                    break;
-
-                case OutputMode.Update:
-                    name += "Update";
-                    break;
-            }
-            return name;
-        }
-
-        private void StartNamespace(Classes model, StringBuilder output)
+        internal void StartNamespace(Classes model, StringBuilder output)
         {
             if (_mode == OutputMode.Model)
             {
