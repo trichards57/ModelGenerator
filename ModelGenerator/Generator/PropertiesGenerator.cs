@@ -19,33 +19,7 @@ namespace ModelGenerator.Generator
 
         public void CreateProperties(IEnumerable<Property> properties, StringBuilder output)
         {
-            var selectedProperties = Enumerable.Empty<Property>();
-
-            switch (_mode)
-            {
-                case OutputMode.Details:
-
-                    selectedProperties = properties.Where(p => p.IncludeInDetail);
-                    break;
-
-                case OutputMode.Summary:
-                    selectedProperties = properties.Where(p => p.IncludeInSummary);
-                    break;
-
-                case OutputMode.Create:
-                    selectedProperties = properties.Where(p => p.IncludeInCreate);
-                    break;
-
-                case OutputMode.Update:
-                    selectedProperties = properties.Where(p => p.IncludeInUpdate);
-                    break;
-
-                default:
-                    selectedProperties = properties;
-                    break;
-            }
-
-            foreach (var p in selectedProperties)
+            foreach (var p in HelperClasses.FilterProperties(properties, _mode))
                 CreateProperty(p, output);
         }
 

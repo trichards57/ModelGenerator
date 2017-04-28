@@ -14,38 +14,9 @@ namespace ModelGenerator.Generator
             _mode = mode;
         }
 
-        private bool IsClientSide => _mode != OutputMode.Model;
-        private bool IsReadOnlyMode => !(_mode == OutputMode.Model || _mode == OutputMode.Create || _mode == OutputMode.Update);
-
         public void CreateProperties(IEnumerable<Property> properties, StringBuilder output)
         {
-            var selectedProperties = Enumerable.Empty<Property>();
-
-            switch (_mode)
-            {
-                case OutputMode.Details:
-
-                    selectedProperties = properties.Where(p => p.IncludeInDetail);
-                    break;
-
-                case OutputMode.Summary:
-                    selectedProperties = properties.Where(p => p.IncludeInSummary);
-                    break;
-
-                case OutputMode.Create:
-                    selectedProperties = properties.Where(p => p.IncludeInCreate);
-                    break;
-
-                case OutputMode.Update:
-                    selectedProperties = properties.Where(p => p.IncludeInUpdate);
-                    break;
-
-                default:
-                    selectedProperties = properties;
-                    break;
-            }
-
-            foreach (var p in selectedProperties)
+            foreach (var p in HelperClasses.FilterProperties(properties, _mode))
                 CreateProperty(p, output);
         }
 
@@ -60,6 +31,7 @@ namespace ModelGenerator.Generator
                     type = "boolean";
                     break;
 
+                case "float":
                 case "int":
                     type = "number";
                     break;
@@ -79,18 +51,14 @@ namespace ModelGenerator.Generator
 
             if (property.GenerateAsList)
             {
-                if (_mode == OutputMode.Details)
-                    type += "Details";
-
-                output.AppendLine($"    {name}: I{type}[];");
+                output.AppendLine($"    {name}: I{HelperClasses.GetName(type, _mode)}[];");
             }
             else
             {
                 if (!string.IsNullOrWhiteSpace(property.NavigationPropertyId))
-                    type = "I" + type;
-
-                if (_mode == OutputMode.Details)
-                    type += "Details";
+                {
+                    type = "I" + HelperClasses.GetName(type, _mode);
+                }
 
                 output.AppendLine($"    {name}: {type};");
             }

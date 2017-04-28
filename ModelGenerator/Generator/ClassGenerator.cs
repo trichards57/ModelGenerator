@@ -2,34 +2,29 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 
 namespace ModelGenerator.Generator
 {
-    internal class ClassGenerator
+    internal class ClassGenerator : ClassGeneratorBase
     {
         private readonly FunctionGenerator _functionGenerator;
-        private readonly string _generatorVersion;
-        private readonly OutputMode _mode;
         private readonly PropertiesGenerator _propGenerator;
 
-        public ClassGenerator(OutputMode mode)
+        public ClassGenerator(OutputMode mode) : base(mode)
         {
-            _mode = mode;
-            _generatorVersion = "v" + Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
             _propGenerator = new PropertiesGenerator(mode);
             _functionGenerator = new FunctionGenerator(mode);
         }
 
-        public void CreateClass(Class model, StringBuilder output)
+        public override void CreateClass(Class model, StringBuilder output)
         {
-            var name = HelperClasses.GetName(model.Name, _mode);
+            var name = HelperClasses.GetName(model.Name, Mode);
 
-            output.AppendLine($"\t[GeneratedCode(\"Model Generator\", \"{_generatorVersion}\"), ExcludeFromCodeCoverage]");
+            output.AppendLine($"\t[GeneratedCode(\"Model Generator\", \"{GeneratorVersion}\"), ExcludeFromCodeCoverage]");
             output.Append($"\tpublic partial class {name}");
 
-            if (_mode == OutputMode.Model)
+            if (Mode == OutputMode.Model)
             {
                 output.Append($" : IIdentifiable, ICloneable, IEquatable<{model.Name}>");
 
@@ -39,10 +34,10 @@ namespace ModelGenerator.Generator
                     output.Append($", ISummarisable<{model.Name}Summary>");
             }
 
-            if (_mode == OutputMode.Create)
+            if (Mode == OutputMode.Create)
                 output.Append($" : ICreateViewModel<{model.Name}>");
 
-            if (_mode == OutputMode.Update)
+            if (Mode == OutputMode.Update)
                 output.Append($" : IUpdateViewModel<{model.Name}>");
 
             output.AppendLine();
@@ -67,37 +62,13 @@ namespace ModelGenerator.Generator
             output.AppendLine("\t}");
         }
 
-        public void CreateClasses(Classes model, StringBuilder output)
+        public override void CreateClasses(Classes model, StringBuilder output)
         {
             CreateUsings(model, output);
             StartNamespace(model, output);
 
-            var cls = model.Items.AsEnumerable();
+            base.CreateClasses(model, output);
 
-            switch (_mode)
-            {
-                case OutputMode.Create:
-                    cls = cls.Where(c => c.GenerateCreateModel);
-                    break;
-
-                case OutputMode.Details:
-                    cls = cls.Where(c => c.GenerateDetailModel);
-                    break;
-
-                case OutputMode.Summary:
-                    cls = cls.Where(c => c.GenerateSummaryModel);
-                    break;
-
-                case OutputMode.Update:
-                    cls = cls.Where(c => c.GenerateUpdateModel);
-                    break;
-            }
-
-            foreach (var cl in cls)
-            {
-                CreateClass(cl, output);
-                output.AppendLine();
-            }
             EndNamespace(output);
         }
 
@@ -111,13 +82,13 @@ namespace ModelGenerator.Generator
                 "using System;",
                 "using WebsiteHelpers.Interfaces;"
             };
-            if (_mode == OutputMode.Model)
+            if (Mode == OutputMode.Model)
             {
                 outputs.Add("using System.Collections.Generic;");
                 outputs.Add("using System.ComponentModel.DataAnnotations.Schema;");
                 outputs.Add($"using {model.RootNamespace}.{model.ViewModelNamespace};");
             }
-            else if (_mode == OutputMode.Details)
+            else if (Mode == OutputMode.Details)
             {
                 outputs.Add("using System.Collections.Generic;");
                 outputs.Add("using System.Linq;");
@@ -141,7 +112,7 @@ namespace ModelGenerator.Generator
 
         internal void StartNamespace(Classes model, StringBuilder output)
         {
-            if (_mode == OutputMode.Model)
+            if (Mode == OutputMode.Model)
             {
                 output.AppendLine($"namespace {model.RootNamespace}.{model.ModelNamespace}");
                 output.AppendLine("{");
