@@ -5,6 +5,7 @@ using Ploeh.AutoFixture;
 using System;
 using System.Linq;
 using System.Text;
+using ModelGenerator.Generator.Typescript;
 using Xunit;
 
 namespace ModelGenerator.Tests

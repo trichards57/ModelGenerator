@@ -7,14 +7,14 @@ namespace ModelGenerator.Generator
 {
     internal abstract class ClassGeneratorBase
     {
-        public ClassGeneratorBase(OutputMode mode)
+        protected ClassGeneratorBase(OutputMode mode)
         {
             Mode = mode;
             GeneratorVersion = "v" + Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
         }
 
-        public string GeneratorVersion { get; }
-        public OutputMode Mode { get; }
+        protected string GeneratorVersion { get; }
+        protected OutputMode Mode { get; }
 
         public abstract void CreateClass(Class model, StringBuilder output);
 

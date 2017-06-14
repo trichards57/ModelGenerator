@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ModelGenerator.Generator.CSharp;
 using Xunit;
 
 namespace ModelGenerator.Tests

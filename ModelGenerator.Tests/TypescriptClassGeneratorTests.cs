@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ModelGenerator.Generator.CSharp;
+using ModelGenerator.Generator.Typescript;
 using Xunit;
 
 namespace ModelGenerator.Tests
@@ -19,7 +21,7 @@ namespace ModelGenerator.Tests
         public void ModelShouldCreateClass(OutputMode mode)
         {
             var versionNumber = typeof(ClassGenerator).Assembly.GetName().Version.ToString(3);
-            var generator = new TypescriptGenerator(mode);
+            var generator = new TypescriptClassGenerator(mode);
 
             var testModel = new Class
             {

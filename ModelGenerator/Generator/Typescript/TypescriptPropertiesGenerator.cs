@@ -1,15 +1,15 @@
-﻿using ModelGenerator.Model;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ModelGenerator.Model;
 
-namespace ModelGenerator.Generator
+namespace ModelGenerator.Generator.Typescript
 {
-    internal class TypescriptPropertiesGenerator
+    internal class PropertiesGenerator
     {
-        private OutputMode _mode;
+        private readonly OutputMode _mode;
 
-        public TypescriptPropertiesGenerator(OutputMode mode)
+        public PropertiesGenerator(OutputMode mode)
         {
             _mode = mode;
         }
@@ -23,7 +23,7 @@ namespace ModelGenerator.Generator
         public void CreateProperty(Property property, StringBuilder output)
         {
             var type = property.Type;
-            var name = char.ToLower(property.Name.First()).ToString() + new string(property.Name.Skip(1).ToArray());
+            var name = char.ToLower(property.Name.First()) + new string(property.Name.Skip(1).ToArray());
 
             switch (type)
             {
