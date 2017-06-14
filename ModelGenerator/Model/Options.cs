@@ -17,4 +17,4 @@ namespace ModelGenerator.Model
         public string SourceFile { get; set; }
     }
 }
-}
+

@@ -1,6 +1,4 @@
 ﻿using FluentAssertions;
-using Microsoft.CSharp;
-using ModelGenerator.Generator;
 using ModelGenerator.Model;
 using Ploeh.AutoFixture;
 using System;
