@@ -15,6 +15,9 @@ namespace ModelGenerator.Model
         [Option('t', "typescript", HelpText = "Output Typescript Model")]
         public bool OutputTypescript { get; set; }
 
+        [Option('o', "components", HelpText = "Output Typescript Components Model")]
+        public bool OutputTypescriptComponents { get; set; }
+
         [Value(0, HelpText = "Source Model File", Default = "model.xml", Required = true, MetaName = "Source Folder")]
         public string SourceFile { get; set; }
     }

@@ -25,7 +25,7 @@ namespace ModelGenerator
             var optionsValue = ((Parsed<Options>)options).Value;
 
             var sourcePath = optionsValue.SourceFile;
-            var outputFolder = optionsValue.OutputFolder.Trim('\\').Replace('\\', Path.PathSeparator).Replace('/', Path.PathSeparator);
+            var outputFolder = optionsValue.OutputFolder.Trim('\\');
 
             var inFile = File.OpenRead(sourcePath);
 
@@ -131,6 +131,19 @@ namespace ModelGenerator
                             outputPath = Path.Combine(outputFolder, model.TypescriptFolder, "UpdateModels.ts");
                             break;
                     }
+
+                    File.WriteAllText(outputPath, outputTs.ToString());
+                }
+            }
+            if (options.OutputTypescriptComponents && mode == OutputMode.Model)
+            {
+                Console.WriteLine($"Outputting TypeScript Component {mode} Classes to {Path.Combine(options.OutputFolder, model.TypescriptFolder)}");
+                if (!string.IsNullOrWhiteSpace(model.TypescriptFolder))
+                {
+                    var tsGenerator = new Generator.TypescriptComponents.ClassGenerator(mode);
+                    var outputTs = new StringBuilder();
+                    tsGenerator.CreateClasses(model, outputTs);
+                    var outputPath = Path.Combine(outputFolder, model.TypescriptFolder, "Components.ts");
 
                     File.WriteAllText(outputPath, outputTs.ToString());
                 }
