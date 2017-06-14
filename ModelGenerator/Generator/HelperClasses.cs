@@ -30,7 +30,7 @@ namespace ModelGenerator.Generator
             if (mode == OutputMode.Model)
                 return name;
 
-            return name + mode.ToString();
+            return name + mode;
         }
     }
 }

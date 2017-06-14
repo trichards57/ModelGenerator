@@ -18,8 +18,8 @@ namespace ModelGenerator.Tests
         [InlineData(OutputMode.Details), InlineData(OutputMode.Create), InlineData(OutputMode.Summary), InlineData(OutputMode.Update), InlineData(OutputMode.Model)]
         public void ModelShouldCreateClass(OutputMode mode)
         {
-            var versionNumber = typeof(ClassGenerator).Assembly.GetName().Version.ToString(3);
-            var generator = new TypescriptGenerator(mode);
+            var versionNumber = typeof(Generator.Typescript.ClassGenerator).Assembly.GetName().Version.ToString(3);
+            var generator = new Generator.Typescript.ClassGenerator(mode);
 
             var testModel = new Class
             {

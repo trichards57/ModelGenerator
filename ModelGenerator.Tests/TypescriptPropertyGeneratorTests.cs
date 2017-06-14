@@ -23,7 +23,7 @@ namespace ModelGenerator.Tests
                 Type = _fixture.Create<string>()
             };
 
-            var generator = new TypescriptPropertiesGenerator(mode);
+            var generator = new Generator.Typescript.PropertiesGenerator(mode);
             var output = new StringBuilder();
             generator.CreateProperty(testProperty, output);
 
@@ -44,7 +44,7 @@ namespace ModelGenerator.Tests
                 Type = "bool"
             };
 
-            var generator = new TypescriptPropertiesGenerator(mode);
+            var generator = new Generator.Typescript.PropertiesGenerator(mode);
             var output = new StringBuilder();
             generator.CreateProperty(testProperty, output);
 
@@ -65,7 +65,7 @@ namespace ModelGenerator.Tests
                 Type = "DateTimeOffset"
             };
 
-            var generator = new TypescriptPropertiesGenerator(mode);
+            var generator = new Generator.Typescript.PropertiesGenerator(mode);
             var output = new StringBuilder();
             generator.CreateProperty(testProperty, output);
 
@@ -86,7 +86,7 @@ namespace ModelGenerator.Tests
                 Type = "DateTime"
             };
 
-            var generator = new TypescriptPropertiesGenerator(mode);
+            var generator = new Generator.Typescript.PropertiesGenerator(mode);
             var output = new StringBuilder();
             generator.CreateProperty(testProperty, output);
 
@@ -107,7 +107,7 @@ namespace ModelGenerator.Tests
                 Type = "float"
             };
 
-            var generator = new TypescriptPropertiesGenerator(mode);
+            var generator = new Generator.Typescript.PropertiesGenerator(mode);
             var output = new StringBuilder();
             generator.CreateProperty(testProperty, output);
 
@@ -166,7 +166,7 @@ namespace ModelGenerator.Tests
                 }
             };
 
-            var generator = new TypescriptPropertiesGenerator(mode);
+            var generator = new Generator.Typescript.PropertiesGenerator(mode);
             var output = new StringBuilder();
             generator.CreateProperties(testProperties, output);
 
@@ -189,7 +189,7 @@ namespace ModelGenerator.Tests
                 Type = "int"
             };
 
-            var generator = new TypescriptPropertiesGenerator(mode);
+            var generator = new Generator.Typescript.PropertiesGenerator(mode);
             var output = new StringBuilder();
             generator.CreateProperty(testProperty, output);
 
@@ -211,7 +211,7 @@ namespace ModelGenerator.Tests
                 GenerateAsList = true,
             };
 
-            var generator = new TypescriptPropertiesGenerator(mode);
+            var generator = new Generator.Typescript.PropertiesGenerator(mode);
             var output = new StringBuilder();
             generator.CreateProperty(testProperty, output);
 
@@ -233,7 +233,7 @@ namespace ModelGenerator.Tests
                 NavigationPropertyId = _fixture.Create<string>()
             };
 
-            var generator = new TypescriptPropertiesGenerator(mode);
+            var generator = new Generator.Typescript.PropertiesGenerator(mode);
             var output = new StringBuilder();
             generator.CreateProperty(testProperty, output);
 
@@ -254,7 +254,7 @@ namespace ModelGenerator.Tests
                 Type = "Test?"
             };
 
-            var generator = new TypescriptPropertiesGenerator(mode);
+            var generator = new Generator.Typescript.PropertiesGenerator(mode);
             var output = new StringBuilder();
             generator.CreateProperty(testProperty, output);
 
@@ -275,7 +275,7 @@ namespace ModelGenerator.Tests
                 Type = _fixture.Create<string>()
             };
 
-            var generator = new TypescriptPropertiesGenerator(mode);
+            var generator = new Generator.Typescript.PropertiesGenerator(mode);
             var output = new StringBuilder();
             generator.CreateProperty(testProperty, output);
 
@@ -296,7 +296,7 @@ namespace ModelGenerator.Tests
                 Type = "TimeSpan"
             };
 
-            var generator = new TypescriptPropertiesGenerator(mode);
+            var generator = new Generator.Typescript.PropertiesGenerator(mode);
             var output = new StringBuilder();
             generator.CreateProperty(testProperty, output);
 

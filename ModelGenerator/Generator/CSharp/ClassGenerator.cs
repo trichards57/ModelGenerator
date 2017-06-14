@@ -1,10 +1,10 @@
-﻿using ModelGenerator.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ModelGenerator.Model;
 
-namespace ModelGenerator.Generator
+namespace ModelGenerator.Generator.CSharp
 {
     internal class ClassGenerator : ClassGeneratorBase
     {
@@ -82,21 +82,23 @@ namespace ModelGenerator.Generator
                 "using System;",
                 "using WebsiteHelpers.Interfaces;"
             };
-            if (Mode == OutputMode.Model)
+            switch (Mode)
             {
-                outputs.Add("using System.Collections.Generic;");
-                outputs.Add("using System.ComponentModel.DataAnnotations.Schema;");
-                outputs.Add($"using {model.RootNamespace}.{model.ViewModelNamespace};");
-            }
-            else if (Mode == OutputMode.Details)
-            {
-                outputs.Add("using System.Collections.Generic;");
-                outputs.Add("using System.Linq;");
-                outputs.Add($"using {model.RootNamespace}.{model.ModelNamespace};");
-            }
-            else
-            {
-                outputs.Add($"using {model.RootNamespace}.{model.ModelNamespace};");
+                case OutputMode.Model:
+                    outputs.Add("using System.Collections.Generic;");
+                    outputs.Add("using System.ComponentModel.DataAnnotations.Schema;");
+                    outputs.Add($"using {model.RootNamespace}.{model.ViewModelNamespace};");
+                    break;
+
+                case OutputMode.Details:
+                    outputs.Add("using System.Collections.Generic;");
+                    outputs.Add("using System.Linq;");
+                    outputs.Add($"using {model.RootNamespace}.{model.ModelNamespace};");
+                    break;
+
+                default:
+                    outputs.Add($"using {model.RootNamespace}.{model.ModelNamespace};");
+                    break;
             }
 
             outputs.Sort();

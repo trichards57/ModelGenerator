@@ -1,16 +1,16 @@
-﻿using ModelGenerator.Model;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
+using ModelGenerator.Model;
 
-namespace ModelGenerator.Generator
+namespace ModelGenerator.Generator.Typescript
 {
-    internal class TypescriptGenerator : ClassGeneratorBase
+    internal class ClassGenerator : ClassGeneratorBase
     {
-        private TypescriptPropertiesGenerator _propGenerator;
+        private readonly PropertiesGenerator _propGenerator;
 
-        public TypescriptGenerator(OutputMode mode) : base(mode)
+        public ClassGenerator(OutputMode mode) : base(mode)
         {
-            _propGenerator = new TypescriptPropertiesGenerator(mode);
+            _propGenerator = new PropertiesGenerator(mode);
         }
 
         public override void CreateClass(Class model, StringBuilder output)

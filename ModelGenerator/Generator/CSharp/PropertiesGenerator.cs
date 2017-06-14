@@ -1,13 +1,12 @@
-﻿using ModelGenerator.Model;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
+using ModelGenerator.Model;
 
-namespace ModelGenerator.Generator
+namespace ModelGenerator.Generator.CSharp
 {
     internal class PropertiesGenerator
     {
-        private OutputMode _mode;
+        private readonly OutputMode _mode;
 
         public PropertiesGenerator(OutputMode mode)
         {
@@ -37,10 +36,9 @@ namespace ModelGenerator.Generator
 
             if (property.GenerateAsList)
             {
-                if (_mode == OutputMode.Model)
-                    output.AppendLine($"\t\tpublic ICollection<{type}> {property.Name} {{ get; set; }} = new HashSet<{type}>();");
-                else
-                    output.AppendLine($"\t\tpublic IEnumerable<{type}> {property.Name} {{ get; set; }}");
+                output.AppendLine(_mode == OutputMode.Model
+                    ? $"\t\tpublic ICollection<{type}> {property.Name} {{ get; set; }} = new HashSet<{type}>();"
+                    : $"\t\tpublic IEnumerable<{type}> {property.Name} {{ get; set; }}");
             }
             else
             {

@@ -1,12 +1,11 @@
 ﻿using FluentAssertions;
-using Microsoft.CSharp;
-using ModelGenerator.Generator;
 using ModelGenerator.Model;
 using Ploeh.AutoFixture;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using ModelGenerator.Generator.CSharp;
 using Xunit;
 
 namespace ModelGenerator.Tests
@@ -426,7 +425,5 @@ namespace ModelGenerator.Tests
             var expected = $"public IEnumerable<{testProperty.Type}{mode.ToString()}> {testProperty.Name} {{ get; set; }}";
             result.Should().Be(expected);
         }
-
-        
     }
 }
