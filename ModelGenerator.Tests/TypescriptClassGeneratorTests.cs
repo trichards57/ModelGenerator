@@ -32,7 +32,7 @@ namespace ModelGenerator.Tests
             generator.CreateClass(testModel, output);
 
             var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(s => s.Trim());
+                .Select(s => s.Trim()).ToList();
 
             result.Should().Contain($"interface I{HelperClasses.GetName(testModel.Name, mode)} {{");
             result.Should().Contain($"// Model Generator v{versionNumber}");

@@ -32,7 +32,7 @@ namespace ModelGenerator.Tests
             generator.CreateClass(testModel, output);
 
             var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(s => s.Trim());
+                .Select(s => s.Trim()).ToList();
 
             result.Should().Contain($"public partial class {testModel.Name} : IIdentifiable, ICloneable, IEquatable<{testModel.Name}>");
             result.Should().Contain($"[GeneratedCode(\"Model Generator\", \"v{versionNumber}\"), ExcludeFromCodeCoverage]");
@@ -56,7 +56,7 @@ namespace ModelGenerator.Tests
             generator.CreateClass(testModel, output);
 
             var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(s => s.Trim());
+                .Select(s => s.Trim()).ToList();
 
             result.Should().Contain($"public partial class {testModel.Name} : IIdentifiable, ICloneable, IEquatable<{testModel.Name}>, IDetailable<{HelperClasses.GetName(testModel.Name, OutputMode.Details)}>");
             result.Should().Contain($"[GeneratedCode(\"Model Generator\", \"v{versionNumber}\"), ExcludeFromCodeCoverage]");
@@ -80,7 +80,7 @@ namespace ModelGenerator.Tests
             generator.CreateClass(testModel, output);
 
             var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(s => s.Trim());
+                .Select(s => s.Trim()).ToList();
 
             result.Should().Contain($"public partial class {testModel.Name} : IIdentifiable, ICloneable, IEquatable<{testModel.Name}>, ISummarisable<{HelperClasses.GetName(testModel.Name, OutputMode.Summary)}>");
             result.Should().Contain($"[GeneratedCode(\"Model Generator\", \"v{versionNumber}\"), ExcludeFromCodeCoverage]");
@@ -103,7 +103,7 @@ namespace ModelGenerator.Tests
             generator.CreateClass(testModel, output);
 
             var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(s => s.Trim());
+                .Select(s => s.Trim()).ToList();
 
             result.Should().Contain($"public partial class {HelperClasses.GetName(testModel.Name, OutputMode.Create)} : ICreateViewModel<{testModel.Name}>");
             result.Should().Contain($"[GeneratedCode(\"Model Generator\", \"v{versionNumber}\"), ExcludeFromCodeCoverage]");
@@ -124,17 +124,17 @@ namespace ModelGenerator.Tests
             generator.CreateUsings(testModel, output);
 
             var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(s => s.Trim());
+                .Select(s => s.Trim()).ToList();
 
-            result.Should().Contain($"using System.CodeDom.Compiler;");
-            result.Should().Contain($"using System.ComponentModel.DataAnnotations;");
-            result.Should().Contain($"using System.Diagnostics.CodeAnalysis;");
-            result.Should().Contain($"using System;");
-            result.Should().Contain($"using WebsiteHelpers.Interfaces;");
+            result.Should().Contain("using System.CodeDom.Compiler;");
+            result.Should().Contain("using System.ComponentModel.DataAnnotations;");
+            result.Should().Contain("using System.Diagnostics.CodeAnalysis;");
+            result.Should().Contain("using System;");
+            result.Should().Contain("using WebsiteHelpers.Interfaces;");
 
             result.Should().Contain($"using {testModel.RootNamespace}.{testModel.ModelNamespace};");
-            result.Should().Contain($"using System.Collections.Generic;");
-            result.Should().Contain($"using System.Linq;");
+            result.Should().Contain("using System.Collections.Generic;");
+            result.Should().Contain("using System.Linq;");
 
             result.Should().OnlyHaveUniqueItems().And.BeInAscendingOrder();
         }
@@ -165,17 +165,17 @@ namespace ModelGenerator.Tests
             generator.CreateUsings(testModel, output);
 
             var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(s => s.Trim());
+                .Select(s => s.Trim()).ToList();
 
-            result.Should().Contain($"using System.CodeDom.Compiler;");
-            result.Should().Contain($"using System.ComponentModel.DataAnnotations;");
-            result.Should().Contain($"using System.Diagnostics.CodeAnalysis;");
-            result.Should().Contain($"using System;");
-            result.Should().Contain($"using WebsiteHelpers.Interfaces;");
+            result.Should().Contain("using System.CodeDom.Compiler;");
+            result.Should().Contain("using System.ComponentModel.DataAnnotations;");
+            result.Should().Contain("using System.Diagnostics.CodeAnalysis;");
+            result.Should().Contain("using System;");
+            result.Should().Contain("using WebsiteHelpers.Interfaces;");
 
             result.Should().Contain($"using {testModel.RootNamespace}.{testModel.ViewModelNamespace};");
-            result.Should().Contain($"using System.Collections.Generic;");
-            result.Should().Contain($"using System.ComponentModel.DataAnnotations.Schema;");
+            result.Should().Contain("using System.Collections.Generic;");
+            result.Should().Contain("using System.ComponentModel.DataAnnotations.Schema;");
 
             result.Should().OnlyHaveUniqueItems().And.BeInAscendingOrder();
         }
@@ -216,13 +216,13 @@ namespace ModelGenerator.Tests
             generator.CreateUsings(testModel, output);
 
             var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(s => s.Trim());
+                .Select(s => s.Trim()).ToList();
 
-            result.Should().Contain($"using System.CodeDom.Compiler;");
-            result.Should().Contain($"using System.ComponentModel.DataAnnotations;");
-            result.Should().Contain($"using System.Diagnostics.CodeAnalysis;");
-            result.Should().Contain($"using System;");
-            result.Should().Contain($"using WebsiteHelpers.Interfaces;");
+            result.Should().Contain("using System.CodeDom.Compiler;");
+            result.Should().Contain("using System.ComponentModel.DataAnnotations;");
+            result.Should().Contain("using System.Diagnostics.CodeAnalysis;");
+            result.Should().Contain("using System;");
+            result.Should().Contain("using WebsiteHelpers.Interfaces;");
 
             result.Should().Contain($"using {testModel.RootNamespace}.{testModel.ModelNamespace};");
 
@@ -247,7 +247,7 @@ namespace ModelGenerator.Tests
             generator.CreateClass(testModel, output);
 
             var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(s => s.Trim());
+                .Select(s => s.Trim()).ToList();
 
             result.Should().Contain($"public partial class {HelperClasses.GetName(testModel.Name, mode)}");
             result.Should().Contain($"[GeneratedCode(\"Model Generator\", \"v{versionNumber}\"), ExcludeFromCodeCoverage]");
@@ -270,7 +270,7 @@ namespace ModelGenerator.Tests
             generator.CreateClass(testModel, output);
 
             var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(s => s.Trim());
+                .Select(s => s.Trim()).ToList();
 
             result.Should().Contain($"public partial class {HelperClasses.GetName(testModel.Name, OutputMode.Update)} : IUpdateViewModel<{testModel.Name}>");
             result.Should().Contain($"[GeneratedCode(\"Model Generator\", \"v{versionNumber}\"), ExcludeFromCodeCoverage]");
