@@ -118,7 +118,7 @@ namespace ModelGenerator
                     CreateFile(Path.Combine(outputFolder, model.TypescriptFolder), "ts", mode, model, tsGenerator);
                 }
             }
-            if (options.OutputTypescriptComponents && mode == OutputMode.Model)
+            if (options.OutputTypescriptComponents && mode == OutputMode.Details)
             {
                 Console.WriteLine($"Outputting TypeScript Component {mode} Classes to {Path.Combine(options.OutputFolder, model.TypescriptFolder)}");
                 if (!string.IsNullOrWhiteSpace(model.TypescriptFolder))
