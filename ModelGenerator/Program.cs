@@ -7,6 +7,7 @@ using System.Text;
 using System.Xml.Serialization;
 using CommandLine;
 using JetBrains.Annotations;
+using ModelGenerator.Generator;
 
 [assembly: InternalsVisibleTo("ModelGenerator.Tests")]
 
@@ -63,76 +64,58 @@ namespace ModelGenerator
                 CreateFiles(outputFolder, model, OutputMode.Update, optionsValue);
         }
 
+        private static void CreateFile(string folder, string extension, OutputMode mode, Classes model, ClassGeneratorBase generator)
+        {
+            var outputModel = new StringBuilder();
+            generator.CreateClasses(model, outputModel);
+
+            var outputPath = string.Empty;
+
+            switch (mode)
+            {
+                case OutputMode.Model:
+                    outputPath = Path.Combine(folder, $"Models.{extension}");
+                    break;
+
+                case OutputMode.Create:
+                    outputPath = Path.Combine(folder, $"CreateModels.{extension}");
+                    break;
+
+                case OutputMode.Details:
+                    outputPath = Path.Combine(folder, $"DetailsModels.{extension}");
+                    break;
+
+                case OutputMode.Summary:
+                    outputPath = Path.Combine(folder, $"SummaryModels.{extension}");
+                    break;
+
+                case OutputMode.Update:
+                    outputPath = Path.Combine(folder, $"UpdateModels.{extension}");
+                    break;
+            }
+
+            File.WriteAllText(outputPath, outputModel.ToString());
+        }
+
         private static void CreateFiles(string outputFolder, Classes model, OutputMode mode, Options options)
         {
             if (options.OutputCSharp)
             {
                 Console.WriteLine($"Outputting C# {mode} Classes to {Path.Combine(options.OutputFolder, model.ModelsFolder)}");
                 var modelGenerator = new Generator.CSharp.ClassGenerator(mode);
-                var outputModel = new StringBuilder();
-                modelGenerator.CreateClasses(model, outputModel);
 
-                var outputPath = string.Empty;
-
-                switch (mode)
-                {
-                    case OutputMode.Model:
-                        outputPath = Path.Combine(outputFolder, model.ModelsFolder, model.ModelNamespace, "Models.cs");
-                        break;
-
-                    case OutputMode.Create:
-                        outputPath = Path.Combine(outputFolder, model.ModelsFolder, model.ViewModelNamespace,
-                            "CreateModels.cs");
-                        break;
-
-                    case OutputMode.Details:
-                        outputPath = Path.Combine(outputFolder, model.ModelsFolder, model.ViewModelNamespace,
-                            "DetailsModels.cs");
-                        break;
-
-                    case OutputMode.Summary:
-                        outputPath = Path.Combine(outputFolder, model.ModelsFolder, model.ViewModelNamespace,
-                            "SummaryModels.cs");
-                        break;
-
-                    case OutputMode.Update:
-                        outputPath = Path.Combine(outputFolder, model.ModelsFolder, model.ViewModelNamespace,
-                            "UpdateModels.cs");
-                        break;
-                }
-
-                File.WriteAllText(outputPath, outputModel.ToString());
+                CreateFile(mode == OutputMode.Model
+                        ? Path.Combine(outputFolder, model.ModelsFolder, model.ModelNamespace)
+                        : Path.Combine(outputFolder, model.ModelsFolder, model.ViewModelNamespace), "cs", mode, model,
+                    modelGenerator);
             }
             if (options.OutputTypescript)
             {
-                Console.WriteLine($"Outputting TypeScript {mode} Classes to {Path.Combine(options.OutputFolder, model.TypescriptFolder)}");
                 if (mode != OutputMode.Model && !string.IsNullOrWhiteSpace(model.TypescriptFolder))
                 {
+                    Console.WriteLine($"Outputting TypeScript {mode} Classes to {Path.Combine(options.OutputFolder, model.TypescriptFolder)}");
                     var tsGenerator = new Generator.Typescript.ClassGenerator(mode);
-                    var outputTs = new StringBuilder();
-                    tsGenerator.CreateClasses(model, outputTs);
-                    var outputPath = string.Empty;
-
-                    switch (mode)
-                    {
-                        case OutputMode.Create:
-                            outputPath = Path.Combine(outputFolder, model.TypescriptFolder, "CreateModels.ts");
-                            break;
-
-                        case OutputMode.Details:
-                            outputPath = Path.Combine(outputFolder, model.TypescriptFolder, "DetailsModels.ts");
-                            break;
-
-                        case OutputMode.Summary:
-                            outputPath = Path.Combine(outputFolder, model.TypescriptFolder, "SummaryModels.ts");
-                            break;
-
-                        case OutputMode.Update:
-                            outputPath = Path.Combine(outputFolder, model.TypescriptFolder, "UpdateModels.ts");
-                            break;
-                    }
-
-                    File.WriteAllText(outputPath, outputTs.ToString());
+                    CreateFile(Path.Combine(outputFolder, model.TypescriptFolder), "ts", mode, model, tsGenerator);
                 }
             }
             if (options.OutputTypescriptComponents && mode == OutputMode.Model)
