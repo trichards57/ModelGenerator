@@ -25,7 +25,7 @@ namespace ModelGenerator
             var optionsValue = ((Parsed<Options>)options).Value;
 
             var sourcePath = optionsValue.SourceFile;
-            var outputFolder = optionsValue.OutputFolder.Trim('\\');
+            var outputFolder = optionsValue.OutputFolder.Trim('\\').Replace('\\', Path.PathSeparator).Replace('/', Path.PathSeparator);
 
             var inFile = File.OpenRead(sourcePath);
 
@@ -50,9 +50,7 @@ namespace ModelGenerator
                 Directory.CreateDirectory(viewmodelOutputFolder);
             }
             if (optionsValue.OutputTypescript)
-            {
                 Directory.CreateDirectory(typescriptOutputFolder);
-            }
 
             CreateFiles(outputFolder, model, OutputMode.Model, optionsValue);
             if (model.Items.Any(i => i.GenerateCreateModel))
@@ -69,6 +67,7 @@ namespace ModelGenerator
         {
             if (options.OutputCSharp)
             {
+                Console.WriteLine($"Outputting C# {mode} Classes to {Path.Combine(options.OutputFolder, model.ModelsFolder)}");
                 var modelGenerator = new Generator.CSharp.ClassGenerator(mode);
                 var outputModel = new StringBuilder();
                 modelGenerator.CreateClasses(model, outputModel);
@@ -106,6 +105,7 @@ namespace ModelGenerator
             }
             if (options.OutputTypescript)
             {
+                Console.WriteLine($"Outputting TypeScript {mode} Classes to {Path.Combine(options.OutputFolder, model.TypescriptFolder)}");
                 if (mode != OutputMode.Model && !string.IsNullOrWhiteSpace(model.TypescriptFolder))
                 {
                     var tsGenerator = new Generator.Typescript.ClassGenerator(mode);

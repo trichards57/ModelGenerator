@@ -1,7 +1,9 @@
 ﻿using CommandLine;
+using JetBrains.Annotations;
 
 namespace ModelGenerator.Model
 {
+    [UsedImplicitly]
     internal class Options
     {
         [Option('c', "csharp", HelpText = "Output CSharp Model")]
