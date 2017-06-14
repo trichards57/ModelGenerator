@@ -18,7 +18,7 @@ namespace ModelGenerator.Generator.Typescript
             var name = "I" + HelperClasses.GetName(model.Name, Mode);
 
             output.AppendLine($"// Model Generator {GeneratorVersion}");
-            output.AppendLine($"interface {name} {{");
+            output.AppendLine($"export interface {name} {{");
 
             _propGenerator.CreateProperties(model.Properties.OrderBy(p => p.Name), output);
 

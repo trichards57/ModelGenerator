@@ -3,7 +3,6 @@ using ModelGenerator.Model;
 using Ploeh.AutoFixture;
 using System;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text;
 using ModelGenerator.Generator.CSharp;
 using Xunit;
@@ -132,11 +131,6 @@ namespace ModelGenerator.Tests
 
             var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(s => s.Trim());
-
-            Func<int, Expression<Func<string, bool>>> property = (int n) =>
-                {
-                    return s => s.StartsWith($"public {testProperties[n].Type} {testProperties[n].Name}");
-                };
 
             var expectedProps = testProperties.Where(p => Helpers.FilterMode(p, mode))
                 .Select(p => $"public {p.Type} {p.Name} {{ get; set; }}");
@@ -379,7 +373,7 @@ namespace ModelGenerator.Tests
             var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(s => s.Trim()).First();
 
-            var expected = $"[EmailAddress]";
+            const string expected = "[EmailAddress]";
 
             result.Should().Be(expected);
         }

@@ -12,7 +12,15 @@ namespace ModelGenerator.Generator.Typescript
         public PropertiesGenerator(OutputMode mode)
         {
             _mode = mode;
+            ClassMapping.Add("bool", "boolean");
+            ClassMapping.Add("float", "number");
+            ClassMapping.Add("int", "number");
+            ClassMapping.Add("DateTime", "string");
+            ClassMapping.Add("DateTimeOffset", "string");
+            ClassMapping.Add("TimeSpan", "string");
         }
+
+        public Dictionary<string, string> ClassMapping { get; set; } = new Dictionary<string, string>();
 
         public void CreateProperties(IEnumerable<Property> properties, StringBuilder output)
         {
@@ -25,23 +33,8 @@ namespace ModelGenerator.Generator.Typescript
             var type = property.Type;
             var name = char.ToLower(property.Name.First()) + new string(property.Name.Skip(1).ToArray());
 
-            switch (type)
-            {
-                case "bool":
-                    type = "boolean";
-                    break;
-
-                case "float":
-                case "int":
-                    type = "number";
-                    break;
-
-                case "DateTime":
-                case "DateTimeOffset":
-                case "TimeSpan":
-                    type = "string";
-                    break;
-            }
+            if (ClassMapping.ContainsKey(type))
+                type = ClassMapping[type];
 
             if (type.EndsWith("?"))
             {

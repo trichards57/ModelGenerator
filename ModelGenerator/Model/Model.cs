@@ -48,6 +48,9 @@ namespace ModelGenerator.Model
 
     public class Property
     {
+        [XmlAttribute("component")]
+        public string Component { get; set; }
+
         [XmlAttribute("display-name")]
         public string DisplayName { get; set; }
 
