@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<coverage version="1.0" date="2017-02-05_20-35-33">
-  <assembly name="ModelGenerator">
-    <class name="ModelGenerator.Generator.PropertiesGenerator" coveredlines="20" coverablelines="21" totallines="41" coveredbranches="11" totalbranches="14" />
-    <class name="ModelGenerator.Model.Model" coveredlines="0" coverablelines="0" totallines="66" coveredbranches="0" totalbranches="0" />
-    <class name="ModelGenerator.Model.Models" coveredlines="0" coverablelines="0" totallines="66" coveredbranches="0" totalbranches="0" />
-    <class name="ModelGenerator.Model.Property" coveredlines="0" coverablelines="0" totallines="66" coveredbranches="0" totalbranches="0" />
-  </assembly>
-</coverage>
