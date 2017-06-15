@@ -25,14 +25,15 @@ namespace ModelGenerator.Generator.TypescriptComponents
                 return components.Select(s => new Class
                 {
                     Name = m.Name + s,
-                    Properties = m.Properties.Where(p => p.Component == s).ToList()
+                    Properties = m.Properties.Where(p => p.Component == s).ToList(),
+                    GenerateDetailModel = true
                 });
             }).ToList();
 
             var newModel = new Classes
             {
                 Items = groupedModel.ToList(),
-                TypescriptFolder = model.TypescriptFolder
+                TypescriptFolder = model.TypescriptFolder,
             };
 
             base.CreateClasses(newModel, output);
