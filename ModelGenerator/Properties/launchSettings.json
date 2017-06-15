@@ -2,7 +2,7 @@
   "profiles": {
     "ModelGenerator": {
       "commandName": "Project",
-      "commandLineArgs": "\"C:\\Users\\trich_000\\Source\\Repos\\ModelGenerator\\TestData\\Output\" \"C:\\Users\\trich_000\\Source\\Repos\\ModelGenerator\\TestData\\model.xml\" -o -t -c",
+      "commandLineArgs": "\"C:\\Users\\trich_000\\Source\\Repos\\Planner\\Planner\" \"C:\\Users\\trich_000\\Source\\Repos\\Planner\\Planner\\model.xml\" -o -t -c",
       "workingDirectory": "C:\\Users\\trich_000\\Source\\Repos\\Planner"
     }
   }
