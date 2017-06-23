@@ -55,7 +55,6 @@ namespace ModelGenerator.Generator.Typescript
 
         public void CreateCopyProperty(Property property, StringBuilder output, string source)
         {
-            var type = property.Type;
             var name = char.ToLower(property.Name.First()) + new string(property.Name.Skip(1).ToArray());
 
             output.AppendLine($"        {name}: {source}.{name},");
