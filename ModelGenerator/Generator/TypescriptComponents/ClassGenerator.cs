@@ -13,6 +13,30 @@ namespace ModelGenerator.Generator.TypescriptComponents
             _propGenerator = new Typescript.PropertiesGenerator(mode);
         }
 
+        public override void CreateClass(Class model, StringBuilder output)
+        {
+            base.CreateClass(model, output);
+            output.AppendLine();
+
+            var name = "I" + HelperClasses.GetName(model.Name, Mode);
+
+            output.AppendLine($"// Model Generator {GeneratorVersion}");
+            output.AppendLine($"export interface {name}Change {{");
+
+            _propGenerator.CreateChangeProperties(model.Properties.OrderBy(p => p.Name), output);
+
+            output.AppendLine("}");
+
+            var pickName = $"pick{HelperClasses.GetName(model.Name, Mode)}";
+
+            output.AppendLine();
+            output.AppendLine($"export function {pickName}(source : {name}) : {name} {{");
+            output.AppendLine("    return {");
+            _propGenerator.CreateCopyProperties(model.Properties.OrderBy(p => p.Name), output, "source");
+            output.AppendLine("    };");
+            output.AppendLine("}");
+        }
+
         public override void CreateClasses(Classes model, StringBuilder output)
         {
             foreach (var c in model.Items)

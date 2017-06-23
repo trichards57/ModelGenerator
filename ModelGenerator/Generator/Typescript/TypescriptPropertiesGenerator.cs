@@ -20,7 +20,46 @@ namespace ModelGenerator.Generator.Typescript
             ClassMapping.Add("TimeSpan", "string");
         }
 
-        public Dictionary<string, string> ClassMapping { get; set; } = new Dictionary<string, string>();
+        public Dictionary<string, string> ClassMapping { get; } = new Dictionary<string, string>();
+
+        public void CreateChangeProperties(IEnumerable<Property> properties, StringBuilder output)
+        {
+            foreach (var p in HelperClasses.FilterProperties(properties, _mode))
+                CreateChangeProperty(p, output);
+        }
+
+        public void CreateChangeProperty(Property property, StringBuilder output)
+        {
+            var type = property.Type;
+            var name = "onChange" + char.ToUpper(property.Name.First()) + new string(property.Name.Skip(1).ToArray());
+
+            if (ClassMapping.ContainsKey(type))
+                type = ClassMapping[type];
+
+            type = $"(value : {type}) => void";
+
+            if (type.EndsWith("?"))
+            {
+                name += "?";
+                type = type.TrimEnd('?');
+            }
+
+            output.AppendLine(property.GenerateAsList ? $"    {name}: {type}[];" : $"    {name}: {type};");
+        }
+
+        public void CreateCopyProperties(IEnumerable<Property> properties, StringBuilder output, string source)
+        {
+            foreach (var p in HelperClasses.FilterProperties(properties, _mode))
+                CreateCopyProperty(p, output, source);
+        }
+
+        public void CreateCopyProperty(Property property, StringBuilder output, string source)
+        {
+            var type = property.Type;
+            var name = char.ToLower(property.Name.First()) + new string(property.Name.Skip(1).ToArray());
+
+            output.AppendLine($"        {name}: {source}.{name},");
+        }
 
         public void CreateProperties(IEnumerable<Property> properties, StringBuilder output)
         {
@@ -42,19 +81,7 @@ namespace ModelGenerator.Generator.Typescript
                 type = type.TrimEnd('?');
             }
 
-            if (property.GenerateAsList)
-            {
-                output.AppendLine($"    {name}: I{HelperClasses.GetName(type, _mode)}[];");
-            }
-            else
-            {
-                if (!string.IsNullOrWhiteSpace(property.NavigationPropertyId))
-                {
-                    type = "I" + HelperClasses.GetName(type, _mode);
-                }
-
-                output.AppendLine($"    {name}: {type};");
-            }
+            output.AppendLine(property.GenerateAsList ? $"    {name}: {type}[];" : $"    {name}: {type};");
         }
     }
 }
