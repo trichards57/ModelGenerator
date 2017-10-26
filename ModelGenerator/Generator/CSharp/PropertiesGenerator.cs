@@ -27,7 +27,7 @@ namespace ModelGenerator.Generator.CSharp
             CreateValidationAttributes(property, output);
 
             if (!string.IsNullOrWhiteSpace(property.DisplayName) && IsClientSide)
-                output.AppendLine($"\t\t[Display(Name=\"{property.DisplayName}\")]");
+                output.AppendLine($"\t\t[Display(Name = \"{property.DisplayName}\")]");
 
             if (!string.IsNullOrWhiteSpace(property.NavigationPropertyId) && !IsClientSide)
                 output.AppendLine($"\t\t[ForeignKey(\"{property.NavigationPropertyId}\")]");

@@ -30,7 +30,7 @@ namespace ModelGenerator.Generator.Typescript
 
         public void CreateChangeProperty(Property property, StringBuilder output)
         {
-            var type = property.Type;
+            var type = property.Type.TrimEnd('?');
             var name = "onChange" + char.ToUpper(property.Name.First()) + new string(property.Name.Skip(1).ToArray());
 
             if (ClassMapping.ContainsKey(type))
@@ -38,10 +38,9 @@ namespace ModelGenerator.Generator.Typescript
 
             type = $"(value : {type}) => void";
 
-            if (type.EndsWith("?"))
+            if (property.Type.EndsWith("?"))
             {
                 name += "?";
-                type = type.TrimEnd('?');
             }
 
             output.AppendLine(property.GenerateAsList ? $"    {name}: {type}[];" : $"    {name}: {type};");
@@ -68,16 +67,15 @@ namespace ModelGenerator.Generator.Typescript
 
         public void CreateProperty(Property property, StringBuilder output)
         {
-            var type = property.Type;
+            var type = property.Type.TrimEnd('?');
             var name = char.ToLower(property.Name.First()) + new string(property.Name.Skip(1).ToArray());
 
             if (ClassMapping.ContainsKey(type))
                 type = ClassMapping[type];
 
-            if (type.EndsWith("?"))
+            if (property.Type.EndsWith("?"))
             {
                 name += "?";
-                type = type.TrimEnd('?');
             }
 
             output.AppendLine(property.GenerateAsList ? $"    {name}: {type}[];" : $"    {name}: {type};");
