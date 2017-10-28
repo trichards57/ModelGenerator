@@ -21,6 +21,7 @@ namespace ModelGenerator.Tests
             testModel.Items.Should().HaveCount(1);
 
             testModel.Items[0].Name.Should().Be("List");
+            testModel.Items[0].Properties[0].IncludeInDatabaseModel.Should().Be(true);
             testModel.ModelNamespace.Should().Be("EventsModel");
             testModel.RootNamespace.Should().Be("Planner.Models");
         }

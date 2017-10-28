@@ -17,6 +17,9 @@ namespace ModelGenerator.Model
         [XmlAttribute("update")]
         public bool GenerateUpdateModel { get; set; }
 
+        [XmlAttribute("model")]
+        public bool GenerateDatabaseModel { get; set; } = true;
+
         [XmlAttribute("name")]
         public string Name { get; set; }
 
@@ -44,6 +47,15 @@ namespace ModelGenerator.Model
 
         [XmlAttribute("viewModelNamespace")]
         public string ViewModelNamespace { get; set; }
+
+        [XmlElement("enum")]
+        public List<Enum> Enumerations { get; set; }
+    }
+
+    public class Enum
+    {
+        [XmlAttribute("name")]
+        public string Name { get; set; }
     }
 
     public class Property
@@ -68,6 +80,9 @@ namespace ModelGenerator.Model
 
         [XmlAttribute("update")]
         public bool IncludeInUpdate { get; set; }
+
+        [XmlAttribute("model")]
+        public bool IncludeInDatabaseModel { get; set; } = true;
 
         [XmlAttribute("name")]
         public string Name { get; set; }

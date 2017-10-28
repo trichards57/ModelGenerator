@@ -43,7 +43,7 @@ namespace ModelGenerator.Generator.Typescript
                 name += "?";
             }
 
-            output.AppendLine(property.GenerateAsList ? $"    {name}: {type}[];" : $"    {name}: {type};");
+            output.AppendLine(property.GenerateAsList ? $"  {name}: {type}[];" : $"  {name}: {type};");
         }
 
         public void CreateCopyProperties(IEnumerable<Property> properties, StringBuilder output, string source)
@@ -78,7 +78,7 @@ namespace ModelGenerator.Generator.Typescript
                 name += "?";
             }
 
-            output.AppendLine(property.GenerateAsList ? $"    {name}: {type}[];" : $"    {name}: {type};");
+            output.AppendLine(property.GenerateAsList ? $"  {name}: {type}[];" : $"  {name}: {type};");
         }
     }
 }

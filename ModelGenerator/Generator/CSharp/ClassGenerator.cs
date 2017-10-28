@@ -64,6 +64,8 @@ namespace ModelGenerator.Generator.CSharp
 
         public override void CreateClasses(Classes model, StringBuilder output)
         {
+            _propGenerator.Enumerations = model.Enumerations.Select(e => e.Name);
+
             CreateUsings(model, output);
             StartNamespace(model, output);
 
@@ -77,6 +79,7 @@ namespace ModelGenerator.Generator.CSharp
             var outputs = new List<string>
             {
                 "using System.CodeDom.Compiler;",
+                "using System.Collections.Generic;",
                 "using System.ComponentModel.DataAnnotations;",
                 "using System.Diagnostics.CodeAnalysis;",
                 "using System;",
@@ -85,13 +88,11 @@ namespace ModelGenerator.Generator.CSharp
             switch (Mode)
             {
                 case OutputMode.Model:
-                    outputs.Add("using System.Collections.Generic;");
                     outputs.Add("using System.ComponentModel.DataAnnotations.Schema;");
                     outputs.Add($"using {model.RootNamespace}.{model.ViewModelNamespace};");
                     break;
 
                 case OutputMode.Details:
-                    outputs.Add("using System.Collections.Generic;");
                     outputs.Add("using System.Linq;");
                     outputs.Add($"using {model.RootNamespace}.{model.ModelNamespace};");
                     break;

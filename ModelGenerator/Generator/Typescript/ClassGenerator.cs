@@ -32,6 +32,15 @@ namespace ModelGenerator.Generator.Typescript
                 _propGenerator.ClassMapping.Add(c.Name, "I" + HelperClasses.GetName(c.Name, Mode));
             }
 
+            var usedPropNames = HelperClasses.FilterProperties(model.Items.SelectMany(c => c.Properties), Mode).Select(p => p.Type.Trim('?'));
+
+            var imports = model.Enumerations.Select(e => e.Name).Intersect(usedPropNames).OrderBy(s => s);
+
+            var importString = string.Join(", ", imports);
+
+            output.AppendLine($"import {{ {importString} }} from \"./enums\";");
+            output.AppendLine();
+
             base.CreateClasses(model, output);
         }
     }

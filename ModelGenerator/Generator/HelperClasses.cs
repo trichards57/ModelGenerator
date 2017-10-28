@@ -21,6 +21,9 @@ namespace ModelGenerator.Generator
 
                 case OutputMode.Update:
                     return properties.Where(c => c.IncludeInUpdate);
+
+                case OutputMode.Model:
+                    return properties.Where(c => c.IncludeInDatabaseModel);
             }
             return properties;
         }

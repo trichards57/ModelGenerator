@@ -39,12 +39,15 @@ namespace ModelGenerator.Generator
                 case OutputMode.Update:
                     cls = cls.Where(c => c.GenerateUpdateModel);
                     break;
+
+                case OutputMode.Model:
+                    cls = cls.Where(c => c.GenerateDatabaseModel);
+                    break;
             }
 
             foreach (var cl in cls.OrderBy(c => c.Name))
             {
                 CreateClass(cl, output);
-                output.AppendLine();
             }
         }
     }

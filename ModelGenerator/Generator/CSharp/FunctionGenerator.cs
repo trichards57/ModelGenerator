@@ -36,6 +36,7 @@ namespace ModelGenerator.Generator.CSharp
             output.AppendLine("\t\t{");
 
             var lines = HelperClasses.FilterProperties(model.Properties, _mode)
+                .Where(p => p.IncludeInDatabaseModel)
                 .OrderBy(p => p.Name)
                 .Select(prop => prop.GenerateAsList ? $"\t\t\t{prop.Name} = item.{prop.Name}.Select(i => new {HelperClasses.GetName(prop.Type, _mode)}(i));" : $"\t\t\t{prop.Name} = item.{prop.Name};");
 
@@ -142,6 +143,7 @@ namespace ModelGenerator.Generator.CSharp
             output.AppendLine($"\t\t\tvar item = new {model.Name}();");
 
             foreach (var prop in HelperClasses.FilterProperties(model.Properties, _mode)
+                .Where(p => p.IncludeInDatabaseModel)
                 .Where(p => string.IsNullOrWhiteSpace(p.NavigationPropertyId))
                 .Where(p => !p.GenerateAsList)
                 .OrderBy(p => p.Name))

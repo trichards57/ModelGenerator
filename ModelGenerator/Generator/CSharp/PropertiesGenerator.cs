@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using ModelGenerator.Model;
 
@@ -7,6 +8,8 @@ namespace ModelGenerator.Generator.CSharp
     internal class PropertiesGenerator
     {
         private readonly OutputMode _mode;
+
+        public IEnumerable<string> Enumerations { get; set; } = Enumerable.Empty<string>();
 
         public PropertiesGenerator(OutputMode mode)
         {
@@ -32,7 +35,10 @@ namespace ModelGenerator.Generator.CSharp
             if (!string.IsNullOrWhiteSpace(property.NavigationPropertyId) && !IsClientSide)
                 output.AppendLine($"\t\t[ForeignKey(\"{property.NavigationPropertyId}\")]");
 
-            var type = HelperClasses.GetName(property.Type, _mode);
+            var type = property.Type;
+
+            if (!Enumerations.Contains(property.Type))
+                type = HelperClasses.GetName(property.Type, _mode);
 
             if (property.GenerateAsList)
             {
