@@ -19,7 +19,7 @@ before_test:
   - cmd: nuget install xunit.runner.console -ExcludeVersion -OutputDirectory tools
   - cmd: nuget install coveralls.io -ExcludeVersion -OutputDirectory tools
 test_script:
-  - cmd: cd %APPVEYOR_BUILD_FOLDER% && set APPVEYOR_API_URL= && tools\OpenCover\tools\OpenCover.Console.exe -target:"tools\xunit.runner.console\tools\xunit.console.x86.exe" -targetargs:"ModelGenerator.Tests\bin\Release\net46\ModelGenerator.Tests.dll -noShadow -xml test-results.xml" -register:user -output:"reports\coverage\coverage.xml" -skipautoprops -filter:"+[ModelGenerator]*"  -excludebyattribute:*.ExcludeFromCodeCoverage* -mergebyhash -returntargetcode
+  - cmd: cd %APPVEYOR_BUILD_FOLDER% && set APPVEYOR_API_URL= && tools\OpenCover\tools\OpenCover.Console.exe -target:"tools\xunit.runner.console\tools\net452\xunit.console.x86.exe" -targetargs:"ModelGenerator.Tests\bin\Release\net46\ModelGenerator.Tests.dll -noShadow -xml test-results.xml" -register:user -output:"reports\coverage\coverage.xml" -skipautoprops -filter:"+[ModelGenerator]*"  -excludebyattribute:*.ExcludeFromCodeCoverage* -mergebyhash -returntargetcode
 after_test:
   - ps: .\upload-results.ps1
   - cmd: tools\coveralls.io\tools\coveralls.net.exe reports\coverage\coverage.xml
