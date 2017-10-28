@@ -41,7 +41,7 @@ namespace ModelGenerator.Generator
                     break;
             }
 
-            foreach (var cl in cls)
+            foreach (var cl in cls.OrderBy(c => c.Name))
             {
                 CreateClass(cl, output);
                 output.AppendLine();

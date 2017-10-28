@@ -24,5 +24,15 @@ namespace ModelGenerator.Generator.Typescript
 
             output.AppendLine("}");
         }
+
+        public override void CreateClasses(Classes model, StringBuilder output)
+        {
+            foreach (var c in model.Items)
+            {
+                _propGenerator.ClassMapping.Add(c.Name, "I" + HelperClasses.GetName(c.Name, Mode));
+            }
+
+            base.CreateClasses(model, output);
+        }
     }
 }

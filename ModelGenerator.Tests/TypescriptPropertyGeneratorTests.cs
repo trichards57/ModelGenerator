@@ -212,6 +212,8 @@ namespace ModelGenerator.Tests
             };
 
             var generator = new Generator.Typescript.PropertiesGenerator(mode);
+            generator.ClassMapping.Add(testProperty.Type, "I" + HelperClasses.GetName(testProperty.Type, mode));
+
             var output = new StringBuilder();
             generator.CreateProperty(testProperty, output);
 
@@ -234,6 +236,8 @@ namespace ModelGenerator.Tests
             };
 
             var generator = new Generator.Typescript.PropertiesGenerator(mode);
+            generator.ClassMapping.Add(testProperty.Type, "I" + HelperClasses.GetName(testProperty.Type, mode));
+
             var output = new StringBuilder();
             generator.CreateProperty(testProperty, output);
 

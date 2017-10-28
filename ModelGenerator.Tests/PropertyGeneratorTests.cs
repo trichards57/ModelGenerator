@@ -52,7 +52,7 @@ namespace ModelGenerator.Tests
             var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(s => s.Trim()).First();
 
-            var expected = $"[Display(Name=\"{testProperty.DisplayName}\")]";
+            var expected = $"[Display(Name = \"{testProperty.DisplayName}\")]";
 
             result.Should().Be(expected);
         }
