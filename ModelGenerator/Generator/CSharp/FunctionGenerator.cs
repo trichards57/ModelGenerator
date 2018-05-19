@@ -16,7 +16,8 @@ namespace ModelGenerator.Generator.CSharp
 
         public void CreateCloneMethod(Class model, StringBuilder output)
         {
-            output.AppendLine("\t\tpublic object Clone()");
+            output.AppendLine();
+            output.AppendLine($"\t\tpublic {HelperClasses.GetName(model.Name, _mode)} Clone()");
             CreateCopyFunction(model, output);
         }
 
@@ -113,9 +114,10 @@ namespace ModelGenerator.Generator.CSharp
             var name = HelperClasses.GetName("To", mode);
             var returnType = HelperClasses.GetName(model.Name, mode);
 
+            output.AppendLine();
             output.AppendLine($"\t\tpublic {returnType} {name}()");
             output.AppendLine("\t\t{");
-            output.AppendLine($"\t\treturn new {returnType}(this);");
+            output.AppendLine($"\t\t\treturn new {returnType}(this);");
             output.AppendLine("\t\t}");
         }
 

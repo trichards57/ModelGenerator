@@ -31,9 +31,8 @@ namespace ModelGenerator
             var inFile = File.OpenRead(sourcePath);
 
             var serializer = new XmlSerializer(typeof(Classes));
-            var model = serializer.Deserialize(new StreamReader(inFile)) as Classes;
 
-            if (model == null)
+            if (!(serializer.Deserialize(new StreamReader(inFile)) is Classes model))
             {
                 Console.WriteLine("Could not process XML file");
                 Console.WriteLine("Press enter to close...");

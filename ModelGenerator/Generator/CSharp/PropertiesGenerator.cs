@@ -9,13 +9,12 @@ namespace ModelGenerator.Generator.CSharp
     {
         private readonly OutputMode _mode;
 
-        public IEnumerable<string> Enumerations { get; set; } = Enumerable.Empty<string>();
-
         public PropertiesGenerator(OutputMode mode)
         {
             _mode = mode;
         }
 
+        public IEnumerable<string> Enumerations { get; set; } = Enumerable.Empty<string>();
         private bool IsClientSide => _mode != OutputMode.Model;
         private bool IsReadOnlyMode => !(_mode == OutputMode.Model || _mode == OutputMode.Create || _mode == OutputMode.Update);
 

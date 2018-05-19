@@ -15,11 +15,11 @@ namespace ModelGenerator.Tests
     {
         private readonly Fixture _fixture = new Fixture();
 
-        private readonly Class TestModel;
+        private readonly Class _testModel;
 
         public FunctionGeneratorTests()
         {
-            TestModel = new Class
+            _testModel = new Class
             {
                 Name = _fixture.Create<string>(),
                 Properties = new List<Property>
@@ -150,14 +150,14 @@ namespace ModelGenerator.Tests
 
             var output = new StringBuilder();
 
-            generator.CreateCloneMethod(TestModel, output);
+            generator.CreateCloneMethod(_testModel, output);
 
             var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(s => s.Trim()).ToList();
 
-            var expectedProperties = TestModel.Properties.Where(p => Helpers.FilterMode(p, mode) && !p.GenerateAsList && string.IsNullOrWhiteSpace(p.NavigationPropertyId))
+            var expectedProperties = _testModel.Properties.Where(p => Helpers.FilterMode(p, mode) && !p.GenerateAsList && string.IsNullOrWhiteSpace(p.NavigationPropertyId))
                 .Select(s => $"item.{s.Name} = {s.Name};");
-            var unexpectedProperties = TestModel.Properties.Where(p => !Helpers.FilterMode(p, mode) || p.GenerateAsList || !string.IsNullOrWhiteSpace(p.NavigationPropertyId))
+            var unexpectedProperties = _testModel.Properties.Where(p => !Helpers.FilterMode(p, mode) || p.GenerateAsList || !string.IsNullOrWhiteSpace(p.NavigationPropertyId))
                .Select(s => $"item.{s.Name} = {s.Name};");
 
             result.First().Should().Be("public object Clone()");
@@ -173,20 +173,20 @@ namespace ModelGenerator.Tests
 
             var output = new StringBuilder();
 
-            generator.CreateConstructor(TestModel, output);
+            generator.CreateConstructor(_testModel, output);
 
             var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(s => s.Trim()).ToList();
 
-            var expectedProperties = TestModel.Properties.Where(p => Helpers.FilterMode(p, mode))
+            var expectedProperties = _testModel.Properties.Where(p => Helpers.FilterMode(p, mode))
                 .Select(s => s.GenerateAsList ? $"{s.Name} = item.{s.Name}.Select(i => new {s.Type}{mode.ToString()}(i));" : $"{s.Name} = item.{s.Name};");
-            var unexpectedProperties = TestModel.Properties.Where(p => !Helpers.FilterMode(p, mode))
+            var unexpectedProperties = _testModel.Properties.Where(p => !Helpers.FilterMode(p, mode))
                 .Select(s => s.GenerateAsList ? $"{s.Name} = item.{s.Name}.Select(i => new {s.Type}{mode.ToString()}(i));" : $"{s.Name} = item.{s.Name};");
 
             if (mode == OutputMode.Update)
-                result.Should().Contain($"public {TestModel.Name}{mode.ToString()}() {{ }}");
+                result.Should().Contain($"public {_testModel.Name}{mode.ToString()}() {{ }}");
 
-            result.Should().Contain($"public {TestModel.Name}{mode.ToString()}({TestModel.Name} item)");
+            result.Should().Contain($"public {_testModel.Name}{mode.ToString()}({_testModel.Name} item)");
             result.Should().Contain(expectedProperties);
             result.Should().NotContain(unexpectedProperties);
         }
@@ -199,7 +199,7 @@ namespace ModelGenerator.Tests
 
             var output = new StringBuilder();
 
-            generator.CreateConstructor(TestModel, output);
+            generator.CreateConstructor(_testModel, output);
 
             var result = output.ToString();
 
@@ -256,18 +256,18 @@ namespace ModelGenerator.Tests
 
             var output = new StringBuilder();
 
-            generator.CreateEqualsMethods(TestModel, output);
+            generator.CreateEqualsMethods(_testModel, output);
 
             var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(s => s.Trim()).ToList();
 
-            var expectedProperties = TestModel.Properties.Where(p => Helpers.FilterMode(p, mode) && !p.GenerateAsList && string.IsNullOrWhiteSpace(p.NavigationPropertyId))
+            var expectedProperties = _testModel.Properties.Where(p => Helpers.FilterMode(p, mode) && !p.GenerateAsList && string.IsNullOrWhiteSpace(p.NavigationPropertyId))
                 .Select(s => $"res &= {s.Name}.Equals(other.{s.Name});");
-            var unexpectedProperties = TestModel.Properties.Where(p => !Helpers.FilterMode(p, mode) || p.GenerateAsList || !string.IsNullOrWhiteSpace(p.NavigationPropertyId))
+            var unexpectedProperties = _testModel.Properties.Where(p => !Helpers.FilterMode(p, mode) || p.GenerateAsList || !string.IsNullOrWhiteSpace(p.NavigationPropertyId))
                 .Select(s => $"res &= {s.Name}.Equals(other.{s.Name});");
 
             result.Should().Contain("public override bool Equals(object other)");
-            result.Should().Contain($"public bool Equals({TestModel.Name}{(mode != OutputMode.Model ? mode.ToString() : "")} other)");
+            result.Should().Contain($"public bool Equals({_testModel.Name}{(mode != OutputMode.Model ? mode.ToString() : "")} other)");
             result.Should().Contain(expectedProperties);
             result.Should().NotContain(unexpectedProperties);
         }
@@ -280,14 +280,14 @@ namespace ModelGenerator.Tests
 
             var output = new StringBuilder();
 
-            generator.CreateHashCodeMethod(TestModel, output);
+            generator.CreateHashCodeMethod(_testModel, output);
 
             var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(s => s.Trim()).ToList();
 
-            var expectedProperties = TestModel.Properties.Where(p => Helpers.FilterMode(p, mode) && !p.GenerateAsList && string.IsNullOrWhiteSpace(p.NavigationPropertyId))
+            var expectedProperties = _testModel.Properties.Where(p => Helpers.FilterMode(p, mode) && !p.GenerateAsList && string.IsNullOrWhiteSpace(p.NavigationPropertyId))
                 .Select(s => $"hash = hash * 31 + {s.Name}.GetHashCode();");
-            var unexpectedProperties = TestModel.Properties.Where(p => !Helpers.FilterMode(p, mode) || p.GenerateAsList || !string.IsNullOrWhiteSpace(p.NavigationPropertyId))
+            var unexpectedProperties = _testModel.Properties.Where(p => !Helpers.FilterMode(p, mode) || p.GenerateAsList || !string.IsNullOrWhiteSpace(p.NavigationPropertyId))
                 .Select(s => $"hash = hash * 31 + {s.Name}.GetHashCode();");
 
             result.Should().Contain("public override int GetHashCode()");
@@ -302,13 +302,13 @@ namespace ModelGenerator.Tests
             var generator = new FunctionGenerator(OutputMode.Model);
 
             var output = new StringBuilder();
-            generator.CreateToViewModelMethod(TestModel, mode, output);
+            generator.CreateToViewModelMethod(_testModel, mode, output);
 
             var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(s => s.Trim()).ToList();
 
             var name = HelperClasses.GetName("To", mode);
-            var returnType = HelperClasses.GetName(TestModel.Name, mode);
+            var returnType = HelperClasses.GetName(_testModel.Name, mode);
 
             result.Should().Contain($"public {returnType} {name}()");
             result.Should().Contain($"return new {returnType}(this);");
@@ -321,10 +321,10 @@ namespace ModelGenerator.Tests
             var generator = new FunctionGenerator(mode);
 
             var output = new StringBuilder();
-            generator.CreateToViewModelMethod(TestModel, OutputMode.Create, output);
-            generator.CreateToViewModelMethod(TestModel, OutputMode.Details, output);
-            generator.CreateToViewModelMethod(TestModel, OutputMode.Summary, output);
-            generator.CreateToViewModelMethod(TestModel, OutputMode.Update, output);
+            generator.CreateToViewModelMethod(_testModel, OutputMode.Create, output);
+            generator.CreateToViewModelMethod(_testModel, OutputMode.Details, output);
+            generator.CreateToViewModelMethod(_testModel, OutputMode.Summary, output);
+            generator.CreateToViewModelMethod(_testModel, OutputMode.Update, output);
 
             var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(s => s.Trim());
@@ -339,17 +339,17 @@ namespace ModelGenerator.Tests
 
             var output = new StringBuilder();
 
-            generator.CreateToItemMethod(TestModel, output);
+            generator.CreateToItemMethod(_testModel, output);
 
             var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(s => s.Trim()).ToList();
 
-            var expectedProperties = TestModel.Properties.Where(p => Helpers.FilterMode(p, OutputMode.Create) && !p.GenerateAsList && string.IsNullOrWhiteSpace(p.NavigationPropertyId))
+            var expectedProperties = _testModel.Properties.Where(p => Helpers.FilterMode(p, OutputMode.Create) && !p.GenerateAsList && string.IsNullOrWhiteSpace(p.NavigationPropertyId))
                 .Select(s => $"item.{s.Name} = {s.Name};");
-            var unexpectedProperties = TestModel.Properties.Where(p => !Helpers.FilterMode(p, OutputMode.Create) || p.GenerateAsList || !string.IsNullOrWhiteSpace(p.NavigationPropertyId))
+            var unexpectedProperties = _testModel.Properties.Where(p => !Helpers.FilterMode(p, OutputMode.Create) || p.GenerateAsList || !string.IsNullOrWhiteSpace(p.NavigationPropertyId))
                .Select(s => $"item.{s.Name} = {s.Name};");
 
-            result.First().Should().Be($"public {TestModel.Name} ToItem()");
+            result.First().Should().Be($"public {_testModel.Name} ToItem()");
             result.Should().Contain(expectedProperties);
             result.Should().NotContain(unexpectedProperties);
         }
@@ -362,7 +362,7 @@ namespace ModelGenerator.Tests
 
             var output = new StringBuilder();
 
-            generator.CreateToItemMethod(TestModel, output);
+            generator.CreateToItemMethod(_testModel, output);
 
             var result = output.ToString();
 
@@ -377,7 +377,7 @@ namespace ModelGenerator.Tests
 
             var output = new StringBuilder();
 
-            generator.CreateUpdateItemMethod(TestModel, output);
+            generator.CreateUpdateItemMethod(_testModel, output);
 
             var result = output.ToString();
 
@@ -391,17 +391,17 @@ namespace ModelGenerator.Tests
 
             var output = new StringBuilder();
 
-            generator.CreateUpdateItemMethod(TestModel, output);
+            generator.CreateUpdateItemMethod(_testModel, output);
 
             var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(s => s.Trim()).ToList();
 
-            var expectedProperties = TestModel.Properties.Where(p => Helpers.FilterMode(p, OutputMode.Update) && !p.GenerateAsList)
+            var expectedProperties = _testModel.Properties.Where(p => Helpers.FilterMode(p, OutputMode.Update) && !p.GenerateAsList)
                 .Select(s => $"item.{s.Name} = {s.Name};");
-            var unexpectedProperties = TestModel.Properties.Where(p => !Helpers.FilterMode(p, OutputMode.Update) || p.GenerateAsList)
+            var unexpectedProperties = _testModel.Properties.Where(p => !Helpers.FilterMode(p, OutputMode.Update) || p.GenerateAsList)
                .Select(s => $"item.{s.Name} = {s.Name};");
 
-            result.First().Should().Be($"public void UpdateItem({TestModel.Name} item)");
+            result.First().Should().Be($"public void UpdateItem({_testModel.Name} item)");
             result.Should().Contain(expectedProperties);
             result.Should().NotContain(unexpectedProperties);
         }

@@ -5,8 +5,14 @@ namespace ModelGenerator.Model
 {
     public class Class
     {
+        [XmlAttribute("clonableModel")]
+        public bool ClonableModel { get; set; }
+
         [XmlAttribute("create")]
         public bool GenerateCreateModel { get; set; }
+
+        [XmlAttribute("model")]
+        public bool GenerateDatabaseModel { get; set; } = true;
 
         [XmlAttribute("detail")]
         public bool GenerateDetailModel { get; set; }
@@ -16,9 +22,6 @@ namespace ModelGenerator.Model
 
         [XmlAttribute("update")]
         public bool GenerateUpdateModel { get; set; }
-
-        [XmlAttribute("model")]
-        public bool GenerateDatabaseModel { get; set; } = true;
 
         [XmlAttribute("name")]
         public string Name { get; set; }
@@ -30,6 +33,9 @@ namespace ModelGenerator.Model
     [XmlRoot("models")]
     public class Classes
     {
+        [XmlElement("enum")]
+        public List<Enum> Enumerations { get; set; }
+
         [XmlElement("model")]
         public List<Class> Items { get; set; }
 
@@ -47,9 +53,6 @@ namespace ModelGenerator.Model
 
         [XmlAttribute("viewModelNamespace")]
         public string ViewModelNamespace { get; set; }
-
-        [XmlElement("enum")]
-        public List<Enum> Enumerations { get; set; }
     }
 
     public class Enum
@@ -72,6 +75,9 @@ namespace ModelGenerator.Model
         [XmlAttribute("create")]
         public bool IncludeInCreate { get; set; }
 
+        [XmlAttribute("model")]
+        public bool IncludeInDatabaseModel { get; set; } = true;
+
         [XmlAttribute("detail")]
         public bool IncludeInDetail { get; set; }
 
@@ -80,9 +86,6 @@ namespace ModelGenerator.Model
 
         [XmlAttribute("update")]
         public bool IncludeInUpdate { get; set; }
-
-        [XmlAttribute("model")]
-        public bool IncludeInDatabaseModel { get; set; } = true;
 
         [XmlAttribute("name")]
         public string Name { get; set; }

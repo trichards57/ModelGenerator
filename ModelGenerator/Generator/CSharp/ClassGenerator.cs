@@ -26,7 +26,7 @@ namespace ModelGenerator.Generator.CSharp
 
             if (Mode == OutputMode.Model)
             {
-                output.Append($" : IIdentifiable, ICloneable, IEquatable<{model.Name}>");
+                output.Append($" : IIdentifiable, IEquatable<{model.Name}>");
 
                 if (model.GenerateDetailModel)
                     output.Append($", IDetailable<{model.Name}Details>");
@@ -46,7 +46,10 @@ namespace ModelGenerator.Generator.CSharp
 
             _functionGenerator.CreateConstructor(model, output);
             _propGenerator.CreateProperties(model.Properties.OrderBy(p => p.Name), output);
-            _functionGenerator.CreateCloneMethod(model, output);
+
+            if (Mode == OutputMode.Model && model.ClonableModel)
+                _functionGenerator.CreateCloneMethod(model, output);
+
             _functionGenerator.CreateEqualsMethods(model, output);
             _functionGenerator.CreateHashCodeMethod(model, output);
 
