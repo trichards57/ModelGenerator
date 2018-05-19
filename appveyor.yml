@@ -34,7 +34,7 @@ deploy:
   on:
     branch: master
   auth_token:
-    secure: mlxIUvXrZV1LAtYt9DXC7hWFCE7oHl3QEFxkKTTrpCYKjyNTeWFpZhrna9zZjEZe
+    secure: JAHcy0x1DqcT/mu5288vnDX70DT6rIBKJhCbccvjt2+OX6iyL14LCaPAA6W7nQAp
 - provider: NuGet
   server: https://www.myget.org/F/trichards57/api/v2/package
   api_key:
