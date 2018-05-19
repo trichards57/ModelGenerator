@@ -243,7 +243,7 @@ namespace ModelGenerator.Tests
 
             var result = output.ToString().Trim();
 
-            var expected = $"{testProperty.Name}: I{HelperClasses.GetName(testProperty.Type, mode)};";
+            var expected = $"{testProperty.Name}?: I{HelperClasses.GetName(testProperty.Type, mode)};";
 
             result.Should().Be(expected);
         }

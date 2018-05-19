@@ -34,7 +34,7 @@ namespace ModelGenerator.Tests
             var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(s => s.Trim()).ToList();
 
-            result.Should().Contain($"public partial class {testModel.Name} : IIdentifiable, ICloneable, IEquatable<{testModel.Name}>");
+            result.Should().Contain($"public partial class {testModel.Name} : IIdentifiable, IEquatable<{testModel.Name}>");
             result.Should().Contain($"[GeneratedCode(\"Model Generator\", \"v{versionNumber}\"), ExcludeFromCodeCoverage]");
         }
 
@@ -58,7 +58,7 @@ namespace ModelGenerator.Tests
             var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(s => s.Trim()).ToList();
 
-            result.Should().Contain($"public partial class {testModel.Name} : IIdentifiable, ICloneable, IEquatable<{testModel.Name}>, IDetailable<{HelperClasses.GetName(testModel.Name, OutputMode.Details)}>");
+            result.Should().Contain($"public partial class {testModel.Name} : IIdentifiable, IEquatable<{testModel.Name}>, IDetailable<{HelperClasses.GetName(testModel.Name, OutputMode.Details)}>");
             result.Should().Contain($"[GeneratedCode(\"Model Generator\", \"v{versionNumber}\"), ExcludeFromCodeCoverage]");
         }
 
@@ -82,7 +82,7 @@ namespace ModelGenerator.Tests
             var result = output.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(s => s.Trim()).ToList();
 
-            result.Should().Contain($"public partial class {testModel.Name} : IIdentifiable, ICloneable, IEquatable<{testModel.Name}>, ISummarisable<{HelperClasses.GetName(testModel.Name, OutputMode.Summary)}>");
+            result.Should().Contain($"public partial class {testModel.Name} : IIdentifiable, IEquatable<{testModel.Name}>, ISummarisable<{HelperClasses.GetName(testModel.Name, OutputMode.Summary)}>");
             result.Should().Contain($"[GeneratedCode(\"Model Generator\", \"v{versionNumber}\"), ExcludeFromCodeCoverage]");
         }
 

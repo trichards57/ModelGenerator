@@ -160,7 +160,7 @@ namespace ModelGenerator.Tests
             var unexpectedProperties = _testModel.Properties.Where(p => !Helpers.FilterMode(p, mode) || p.GenerateAsList || !string.IsNullOrWhiteSpace(p.NavigationPropertyId))
                .Select(s => $"item.{s.Name} = {s.Name};");
 
-            result.First().Should().Be("public object Clone()");
+            result.First().Should().Be($"public {HelperClasses.GetName(_testModel.Name, mode)} Clone()");
             result.Should().Contain(expectedProperties);
             result.Should().NotContain(unexpectedProperties);
         }
